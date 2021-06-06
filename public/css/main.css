@@ -1,0 +1,131 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 0;
+    left: 0;
+    right: 0;
+    background-color: whitesmoke;
+}
+.navbar {
+    left: 0;
+    overflow: hidden;
+    background-color: white;
+    padding: 25px 10px; /* Large padding which will shrink on scroll (using JS) */
+    transition: 0.4s; /* Adds a transition effect when the padding is decreased */
+    position: fixed; /* Sticky/fixed navbar */
+    width: 100%;
+    top: 0; /* At the top */
+    z-index: 99;
+}
+
+.navbar a {
+    float: left;
+    color: rgb(38, 38, 214);;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 25px;
+    border-radius: 4px;
+}
+.navbar a:hover {
+    background-color: rgba(253, 253, 253, 0.37);
+    color: rgb(38, 38, 214);
+}
+
+.navbar-right {
+    float: right;
+    margin-right: 20px;
+    padding-right: 45px;
+}
+
+.navbar-right a {
+    margin: 15px;
+}
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+.cover-photo {
+    background-image: url('../img/background-image.jpg');
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    padding: 25px
+}
+.container {
+    display: flex;
+    justify-content: center;
+    color: white;
+    flex-direction: column;
+}
+.container .header {
+    margin-top: 12rem;
+    font-size: 2rem;
+    color:rgb(38, 38, 214); 
+}
+.container hr {
+    max-width: 180px;
+    margin-top: 120px;
+    margin-bottom: 40px;
+    width: 150px;
+    border-color: #F05F44;
+    
+}
+.container p {
+    text-align: left;
+    color: rgb(38, 38, 214);
+}
+
+.container .intro {
+    width: 400px;
+}
+
+.container h3 {
+    text-align: left !important;
+    color: black
+}
+.menu-icon-con {
+    display: none;
+}
+.menu-icon {
+    width: 35px;
+  height: 3px;
+  background-color: black;
+  margin: 6px 0;
+}
+@media (min-width : 500px) {
+    .container {
+        align-items: center;
+    }
+
+}
+@media (max-width: 500px) {
+    .container .header {
+        margin-top: 10rem
+    }
+    .menu-icon-con {
+        display: block;
+        float: right;
+    margin-right: 20px;
+    }
+    
+}
+
+@media (max-width:500px ){
+    .container hr {
+       margin: 25px;
+    }
+    .navbar .navbar-right a {
+        display: none;
+    }
+    .navbar {
+        width: 100% !important;
+        height: 35px;
+        position: fixed !important;
+        z-index: 0;
+    }
+}
+

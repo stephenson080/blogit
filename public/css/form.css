@@ -1,0 +1,64 @@
+.btn {
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.login {
+    background-color: #F05F44;
+    color: white !important;
+    width: 70px !important;
+}
+
+.login:hover {
+    color: #F05F44!important;
+}
+
+.join {
+    text-transform: uppercase;
+    border-radius: 300px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background-color: #F05F44;
+    border: 2px solids#F05F44;
+    margin: 80px;
+    width: 250px;
+}
+.read-more {
+    text-transform: lowercase;
+    border-radius: 0px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background-color: #F05F44;
+    border: 2px solids#F05F44;
+    margin-top: 5px;
+    width: 120px;
+    height: 40px;
+    font-size: medium;
+    padding: 8px 15px;
+
+}
+.join:hover, .read-more:hover {
+    background-color: transparent;
+    color: #F05F44;
+    border: 2px solid #F05F44;
+}
+
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    margin: 20px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.center {
+    padding: 5px 10px;
+}
