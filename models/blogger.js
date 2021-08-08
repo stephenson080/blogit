@@ -13,9 +13,10 @@ const Blogger = sequelize.define('blogger', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    username: DataTypes.STRING(20),
-    imageUrl: DataTypes.STRING,
-    password: DataTypes.STRING,
+    username: DataTypes.STRING,
+    imageUrl: DataTypes.TEXT,
+    // password: DataTypes.STRING,
+    accountType: DataTypes.STRING
 })
 
 module.exports = Blogger

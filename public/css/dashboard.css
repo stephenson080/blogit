@@ -1,0 +1,19 @@
+.sdeNav {
+    height: 100%;
+    color: red;
+}
+
+.dash-top-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dash-nav {
+    display: flex;
+}
+.container .white {
+    padding: 30px;
+    margin: 40px 0;
+}

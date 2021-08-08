@@ -1,0 +1,73 @@
+<%- include('../../include/head.ejs')  %>
+<link rel="Stylesheet" href="/css/dashboard.css" />
+<link rel="Stylesheet" href="/css/form.css" />
+<link rel="Stylesheet" href="/css/notification-box.css" />
+</head>
+<body bgcolor="whitesmoke">
+    <%- include('../../include/nav.ejs') %>
+    <div class="<%= errorDetails.find(e => e.msg != undefined) ? 'alert' : ''%> <%= errorMessage == 'Operation Successful' ? 'success' : 'fail' %>  ">
+        <span  class="closebtn" >&times;</span>
+        <% if (errorDetails.length >= 1) { %>
+            <div class="row">
+                <div class="col s12 m8 transparent">
+                    <h6><%= errorMessage %> </h6>
+                    <% for( let index = 0; index < errorDetails.length; index++ ) { %>
+                        <p><%= errorDetails[index].msg %> </p>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+    </div>
+    <div class="container">
+        <div class="container">
+            <h5>Edit your Post</h5>
+            <div class="white">
+                <p class="red-text">fill in the form appropriately to edit your post</p>
+                <div class="row">
+                    <form action="/dashboard/posts/edit-post" method="POST" class="col s12" encType="multipart/form-data">
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <label for="title">Post Title</label>
+                                <input name="title" value="<%= post.title %>" type="text">
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <label for="posttype">Post Type</label>
+                                <select  name="posttype">
+                                  <option  class="blue-text text-darken-4" value="" disabled selected>Choose your option</option>
+                                  <% for( let index = 0; index < cat.length; index++ ) { %>
+                                    <option selected= <%= post.categoryId == cat[index].id ? true : false%>  class="blue-text text-darken-4" value="<%= cat[index].id %>"><%= cat[index].category %> </option>
+                                  <% } %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <label for="postimage">Post Image</label>
+                                <input name="postimage" value="<%= post.imageUrl %> " type="file">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                              <label for="postbody">Post Body</label>
+                              <textarea id="textarea1" name="postbody" class="materialize-textarea"><%= post.body %> </textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <input type="hidden" value="<%= post.id %>" name="postId">
+                            <div class="col s3 offset-s6 offset-m6 offset-l6">
+                                <a href="#" class="btn-flat transparent blue-text text-darken-4">Cancel</a>
+                            </div>
+                            <div class="col s3">
+                                <input type="submit" class="btn red">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+
+    <script src="/js/dashboardScript.js"></script>
+<%- include('../../include/end.ejs') %> 

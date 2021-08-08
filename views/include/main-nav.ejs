@@ -1,4 +1,4 @@
-<div class="navbar">
+<!-- <div class="navbar">
     <a href="#default" id="logo">BLOGit</a>
     <div class="menu-icon-con">
       <div class="menu-icon"></div>
@@ -7,8 +7,70 @@
     </div>
     <div class="navbar-right">
       <a class="active" href="#home">Home</a>
-      <a href="#contact">Posts</a>
+      <div class="dropdown">
+        <a href="#" class="drop">Dropdown
+          <i class="fa fa-caret-down"></i>
+        </a>
+        <div class="dropdown-content">
+          <a href="#">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+      </div>
       <a href="#about">About</a>
       <a class="btn login" href="#login-page">Login</a>
     </div>
-</div>
+</div> -->
+<% if (user) { %>
+  <div class="navbar-fixed">
+    <nav class="#ff5252 red accent-2">
+      <div class="nav-wrapper tranparent">
+        <a href="#!" class="brand-logo">BLOGit</a>
+        <a href="#" data-target="mobile-menu" class="sidenav-trigger"
+          ><i class="material-icons">menu</i></a
+        >
+        <ul class="right hide-on-small-only">
+          <li><a href="/logout"><span class="material-icons">logout</span>Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+<% } else {  %>
+  <div class="navbar-fixed">
+    <nav class="#ff5252 red accent-2">
+      <div class="nav-wrapper tranparent container">
+        <a href="#!" class="brand-logo">BLOGit</a>
+        <a href="#" data-target="mobile-menu" class="sidenav-trigger"
+          ><i class="material-icons">menu</i></a
+        >
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#">Home</a></li>
+          <li>
+            <a class="dropdown-trigger" href="#!" data-target="post-categories"
+              >Posts<i class="material-icons right">arrow_drop_down</i></a
+            >
+          </li>
+          <li><a href="#">About</a></li>
+          <li><a class="btn-small blue waves-effect waves-light" href="/login">Login</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  
+  <ul id="post-categories" class="dropdown-content">
+    <% for( let i = 0; i < cat.length; i++ ) { %>
+    <li><a href="#!" class="blue-text"><%= cat[i].category%></a></li>
+    <% } %>
+  </ul>
+  
+  <ul class="sidenav" id="mobile-menu">
+    <li><a href="#">Home</a></li>
+    <li>
+      <a class="dropdown-trigger" href="#!" data-target="post-categories"
+        >Posts<i class="material-icons right">arrow_drop_down</i></a
+      >
+    </li>
+    <li><a href="#">About</a></li>
+    <li><a class="btn-small blue waves-effect waves-light" href="/login">Login</a></li>
+  </ul>
+<% } %> 

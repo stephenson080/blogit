@@ -1,7 +1,7 @@
 const sequelize = require('../database/dbConnection')
 const {DataTypes} = require('sequelize')
 
-const CategoryModel = sequelize.define('post-category', {
+const CategoryModel = sequelize.define('category', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

@@ -4,32 +4,107 @@
 </head>
 <body>
     <%- include("./include/main-nav.ejs")  %>
-    <div class="cover-photo">
+
         <div class="container">
-            <h1 class="header">What is Blogit?</h1>
-            <div class="intro">
+            <h1 class="blue-text">What is Blogit?</h1>
+            <div>
                 <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, 
                     sed do eiusmod tempor 
                     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </p>
             </div>
-                <button class="btn join"><strong>Join Blogit</strong></button>
+            <a href="/login" class="btn-large waves-effect waves-light #ff5252 red accent-2">Join Blogit</a>
         </div>
-    </div>
+        <div class="container">
+          <div class="slideshow-container">
+
+            <!-- Full-width images with number and caption text -->
+            <div class="mySlides fade">
+              <div class="numbertext">1 / 3</div>
+              <img src="img/image.jpeg" style="width:100%">
+              <div class="text">Caption Text</div>
+            </div>
+          
+            <div class="mySlides fade">
+              <div class="numbertext">2 / 3</div>
+              <img src="/img/scott-graham-5fNmWej4tAA-unsplash.jpg" style="width:100%">
+              <div class="text">Caption Two</div>
+            </div>
+          
+            <div class="mySlides fade">
+              <div class="numbertext">3 / 3</div>
+              <img src="/img/imagebackground.jpeg" style="width:100%">
+              <div class="text">Caption Three</div>
+            </div>
+          
+            <!-- Next and previous buttons -->
+            
+          </div>
+        </div>
+    
+      <br>
+      
+      <!-- The dots/circles -->
+      <!-- <div style="text-align:center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+      </div> -->
+    <hr style="width: 100%; border: 0.3px solid #ccc; margin: 30px 0" />
     <div class="container">
-        <h3>Trending Posts</h3>
-        <div class="post-container">
+        <h4>Trending Posts</h4>
+        <div class="container">
             <%- include('./include/post.ejs')  %>
         </div>
-        <div class="post-container">
+        <div class="container">
             <%- include('./include/post.ejs')  %>
         </div>
-         <div class="post-container">
+         <div class="container">
             <%- include('./include/post.ejs')  %>
          </div>
     </div>
+    <div class="container">
+      <h4 style="margin: 15px 0;">More Posts</h4>
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="img/images.jpeg">
+              <span class="card-title">Card Title</span>
+              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+            </div>
+            <div class="card-content">
+              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="img/background-image.jpg">
+              <span class="card-title">Card Title</span>
+              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+            </div>
+            <div class="card-content">
+              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="img/header.jpg">
+              <span class="card-title">Card Title</span>
+              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+            </div>
+            <div class="card-content">
+              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     
-
+    <script src="/js/script.js"></script>
 <%- include('./include/end.ejs') %> 

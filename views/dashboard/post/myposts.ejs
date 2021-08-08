@@ -1,0 +1,40 @@
+<%- include('../../include/head.ejs')  %>
+<link rel="Stylesheet" href="/css/dashboard.css" />
+<link rel = "stylesheet" href="/css/post.css"/>
+</head>
+<body bgcolor="whitesmoke">
+    <%- include('../../include/nav.ejs') %>
+    <div class="container">
+        <div class="container">
+            <h5>My Posts</h5>
+            <% for( let index = 0; index < posts.length; index++ ) { %>
+                <article class="post white">
+                    <div class="post-image">
+                        <img src="<%= posts[index].imageUrl %> " alt="post image">
+                    </div>
+                    <div class="body">
+                        <div class="title">
+                            <p><%= posts[index].title %> </p>
+                        </div>
+                        
+                        <div class="detail">
+                            <p class="blogger">Author: <strong><%= posts[index].author %> </strong></p>
+                            <p class="date-time"><%= posts[index].date_time %></p>
+                        </div>
+                        <div class="content">
+                            <p class="truncate"><%= posts[index].body %></p>
+                            <input type= "hidden" name="postId" value="<%= posts[index].id %>"> 
+                            <a href="/dashboard/posts/view-post/<%= posts[index].id %> " class="btn-small white-text btn-flat blue">Read more</a>
+                            <a href="/dashboard/posts/edit-post/<%= posts[index].id %>" class="btn-small btn-flat transparent green-text">Edit Post</a>
+                            <button class="btn-small btn-flat transparent red-text postbtn">Delete Post</button>
+                        </div>
+                    </div>
+                </article>
+            <% } %>
+        </div>
+        
+    </div>
+    
+
+    <script src="/js/dashboardScript.js"></script>
+<%- include('../../include/end.ejs') %> 

@@ -1,64 +1,56 @@
-.btn {
-    border: none;
-    color: white;
-    padding: 14px 28px;
-    font-size: 16px;
-    border-radius: 10px;
-    cursor: pointer;
+/* label color */
+.input-field label {
+    font-size: large;
+    left: 0 !important;
+    margin: 10px 0;
+    position: relative !important;
+    color: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.input-field input[type=text], .input-field input[type=email], .input-field input[type=file]{
+    border: 1px solid #cccccc;
+    margin: 5px 0;
+    height: 35px !important;
+    padding: 0 5px;
 }
 
-.login {
-    background-color: #F05F44;
-    color: white !important;
-    width: 70px !important;
+.input-field textarea {
+  height: 300px;
+  border: 1px solid #cccccc;
+  margin: 2px 0;
+  padding: 10px 5px;
 }
 
-.login:hover {
-    color: #F05F44!important;
+.input-field input[type=text]:not(.browser-default), .input-field input[type=email]:not(.browser-default), .input-field textarea, 
+.input-field input[type=file]:not(.browser-default){
+    border-bottom: 1px solid #cccccc !important;
+    box-shadow: none !important;
 }
 
-.join {
-    text-transform: uppercase;
-    border-radius: 300px;
-    font-family: 'Montserrat', sans-serif;
-    color: white;
-    background-color: #F05F44;
-    border: 2px solids#F05F44;
-    margin: 80px;
-    width: 250px;
+.input-field>label.active {
+    background-color: transparent !important;
+    color: blue !important;
 }
-.read-more {
-    text-transform: lowercase;
-    border-radius: 0px;
-    font-family: 'Montserrat', sans-serif;
-    color: white;
-    background-color: #F05F44;
-    border: 2px solids#F05F44;
-    margin-top: 5px;
-    width: 120px;
-    height: 40px;
-    font-size: medium;
-    padding: 8px 15px;
+  /* label focus color */
+/* .input-field input[type=text]:focus + label {
+    /* color: #000; */
 
-}
-.join:hover, .read-more:hover {
-    background-color: transparent;
-    color: #F05F44;
-    border: 2px solid #F05F44;
-}
-
-.card {
-    /* Add shadows to create the "card" effect */
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    margin: 20px;
-    border-radius: 15px;
-    background-color: white;
-}
-
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-.center {
-    padding: 5px 10px;
-}
+  /* label underline focus color */
+  /* .input-field input[type=text]:focus {
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+  } */
+  /* valid color */
+  /* .input-field input[type=text].valid {
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+  } */
+  /* invalid color */
+  /* .input-field input[type=text].invalid {
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+  } */
+  /* icon prefix focus color */
+  /* .input-field .prefix.active {
+    color: #000;
+  } */

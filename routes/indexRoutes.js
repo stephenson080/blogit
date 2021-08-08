@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const {getIndexPage} = require('../controllers/index')
+const {get505ErrorPage} = require('../controllers/index')
 
-router.get('/', getIndexPage )
+router.get('/500', get505ErrorPage )
 
 module.exports = router

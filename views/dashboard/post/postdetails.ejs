@@ -1,0 +1,41 @@
+<%- include('../../include/head.ejs')  %>
+<link rel="Stylesheet" href="/css/dashboard.css" />
+</head>
+<body bgcolor="whitesmoke">
+    <%- include('../../include/nav.ejs') %>
+    <div class="container">
+        <div class="container white">
+            <h4><%= post.title %> </h4>
+            <div class="post-detail-image">
+                <img src="<%= post.imageUrl %>" alt="post-image" class="image-post" >
+            </div>
+            <div class="post-detail-user-date">
+                <div class="post-detail-user">
+                    <div class="user-image">
+                        <img src="img/header.jpg" alt="" class="circle">
+                    </div>
+                    <p class="flow-text blue-text"><%= post.author %> </p>
+                </div>
+                <p class="grey-text"><%= post.date %> </p>
+            </div>
+            <div class="row" >
+                <div class="col s12">
+                    <p><%= post.body %> </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s5 m3 l3 offset-s4 offset-m6 offset-l6">
+                    <a href="/dashboard/posts/edit-post/<%= post.id %>" class="btn-flat transparent blue-text text-darken-4">Edit Post</a>
+                </div>
+                <div class="col s3">
+                    <input type= "hidden" name="postId" value="<%= post.id %>">
+                    <button class="btn red postbtn">Delete Post</button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+
+    <script src="/js/dashboardScript.js"></script>
+<%- include('../../include/end.ejs') %> 

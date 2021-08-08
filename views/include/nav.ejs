@@ -1,0 +1,35 @@
+<div class="navbar-fixed">
+  <nav class="#ff5252 red accent-2">
+    <!-- navbar content here  -->
+    <div class="nav-wrapper transparent">
+     <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+     <a><%= title  %> </a>
+     <ul class="right .hide-on-small-only">
+       <li><a href="/logout"><span class="material-icons">logout</span>Logout</a></li>
+     </ul>
+    </div> 
+     
+ </nav>
+</div>
+
+  <ul id="slide-out" class="sidenav">
+    <li><div class="user-view">
+      <div class="background">
+        <img src="img/header.jpg">
+      </div>
+      <a href="#user"><img class="circle" src="<%= user.imageUrl %> "></a>
+      <a href="#name"><span class="white-text name"><%= user.username  %> </span></a>
+      <a href="#email"><span class="white-text email"><%= user.email  %></span></a>
+    </div></li>
+    <li><a href="/dashboard" class="blue-text text-darken-4">Dashboard</a></li>
+    <li><a href="/profile" class="blue-text text-darken-4">My Profile</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader ">Manage Posts</a></li>
+    <li><a href="/dashboard/posts/all-posts"  class="blue-text text-darken-4">All Posts</a></li>
+    <li><a href="/dashboard/posts/my-posts"  class="blue-text text-darken-4">My Posts</a></li>
+    <li><a href="/dashboard/posts/add-post"  class="blue-text text-darken-4">Add Post</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Other</a></li>
+    <li><a class="waves-effect blue-text text-darken-4" href="/logout">Logout</a></li>
+  </ul>
+  

@@ -1,131 +1,101 @@
-body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    padding: 0;
-    left: 0;
-    right: 0;
-    background-color: whitesmoke;
+.card-content p {
+  font-size: xx-small;
 }
-.navbar {
-    left: 0;
-    overflow: hidden;
-    background-color: white;
-    padding: 25px 10px; /* Large padding which will shrink on scroll (using JS) */
-    transition: 0.4s; /* Adds a transition effect when the padding is decreased */
-    position: fixed; /* Sticky/fixed navbar */
-    width: 100%;
-    top: 0; /* At the top */
-    z-index: 99;
+.dropdown-content {
+  width: 200px !important;
 }
 
-.navbar a {
-    float: left;
-    color: rgb(38, 38, 214);;
-    text-align: center;
-    padding: 12px;
-    text-decoration: none;
-    font-size: 18px;
-    line-height: 25px;
-    border-radius: 4px;
-}
-.navbar a:hover {
-    background-color: rgba(253, 253, 253, 0.37);
-    color: rgb(38, 38, 214);
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  width: 100%;
+  position: relative;
+  margin: 50px 0
 }
 
-.navbar-right {
-    float: right;
-    margin-right: 20px;
-    padding-right: 45px;
+/* Hide the images by default */
+.mySlides {
+  display: none;
 }
 
-.navbar-right a {
-    margin: 15px;
-}
-.main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 40px;
-}
-.cover-photo {
-    background-image: url('../img/background-image.jpg');
-    background-repeat: no-repeat;
-    width: 100%;
-    height: 100vh;
-    background-size: cover;
-    padding: 25px
-}
-.container {
-    display: flex;
-    justify-content: center;
-    color: white;
-    flex-direction: column;
-}
-.container .header {
-    margin-top: 12rem;
-    font-size: 2rem;
-    color:rgb(38, 38, 214); 
-}
-.container hr {
-    max-width: 180px;
-    margin-top: 120px;
-    margin-bottom: 40px;
-    width: 150px;
-    border-color: #F05F44;
-    
-}
-.container p {
-    text-align: left;
-    color: rgb(38, 38, 214);
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
 }
 
-.container .intro {
-    width: 400px;
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
 }
 
-.container h3 {
-    text-align: left !important;
-    color: black
-}
-.menu-icon-con {
-    display: none;
-}
-.menu-icon {
-    width: 35px;
-  height: 3px;
-  background-color: black;
-  margin: 6px 0;
-}
-@media (min-width : 500px) {
-    .container {
-        align-items: center;
-    }
-
-}
-@media (max-width: 500px) {
-    .container .header {
-        margin-top: 10rem
-    }
-    .menu-icon-con {
-        display: block;
-        float: right;
-    margin-right: 20px;
-    }
-    
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
 }
 
-@media (max-width:500px ){
-    .container hr {
-       margin: 25px;
-    }
-    .navbar .navbar-right a {
-        display: none;
-    }
-    .navbar {
-        width: 100% !important;
-        height: 35px;
-        position: fixed !important;
-        z-index: 0;
-    }
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
 }
 
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}

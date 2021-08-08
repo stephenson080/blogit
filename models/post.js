@@ -15,6 +15,10 @@ const PostModel = sequelize.define('post', {
         type: DataTypes.STRING(20),
         allowNull: false
     },
+    head_line: {
+        type: DataTypes.STRING(50)
+    },
+    imageUrl: DataTypes.STRING,
     body: DataTypes.TEXT,
     categoryId: {
         type: DataTypes.INTEGER,
@@ -29,7 +33,8 @@ const PostModel = sequelize.define('post', {
             model: Blogger,
             key: 'id'
         }
-    }
+    },
+    likes: DataTypes.INTEGER
 })
 
 module.exports = PostModel
