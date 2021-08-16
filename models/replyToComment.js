@@ -1,9 +1,9 @@
 const sequelize = require('../database/dbConnection')
 const {DataTypes} = require('sequelize');
 
-const Post = require('./post')
+const Comment = require('./comment')
 
-const Comment = sequelize.define('comment', {
+const ReplyToComment = sequelize.define('reply-to-comment', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -15,10 +15,10 @@ const Comment = sequelize.define('comment', {
         allowNull: false
     },
     body: DataTypes.TEXT,
-    postId: {
+    commentId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Post,
+            model: Comment,
             key: 'id'
         }
     },
@@ -27,4 +27,4 @@ const Comment = sequelize.define('comment', {
     imageUrl: DataTypes.STRING
 })
 
-module.exports = Comment
+module.exports = ReplyToComment

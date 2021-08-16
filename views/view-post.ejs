@@ -1,14 +1,13 @@
-<%- include('../../include/head.ejs')  %>
-<link rel="Stylesheet" href="/css/dashboard.css" />
-<link rel="stylesheet" href="/css/form.css"/>
+<%- include('./include/head.ejs')  %>
+<link rel="Stylesheet" href="/css/form.css" />
 </head>
 <body bgcolor="whitesmoke">
-    <%- include('../../include/nav.ejs') %>
+    <%- include('./include/main-nav.ejs') %>
     <div class="container">
         <div class="container">
             <div class="white">
                 <h4><%= post.title %> </h4>
-            <p>Category: <strong class="blue-text"><%= post.category %> </strong></p>
+                <p>Category: <strong class="blue-text"><%= post.category %> </strong></p>
             <div class="post-detail-image">
                 <img src="<%= post.imageUrl %>" alt="post-image" class="image-post" >
             </div>
@@ -23,27 +22,14 @@
             </div>
             <div class="row" >
                 <div class="col s12">
-                    <p><%= post.body %> </p>
+                    <p style="text-align: left;"><%= post.body %> </p>
                 </div>
-            </div>
-            <% if (user.id == post.authorId) { %>
-                <div class="row">
-                    <div class="col s5 m3 l3 offset-s4 offset-m6 offset-l6">
-                        <a href="/dashboard/posts/edit-post/<%= post.id %>" class="btn-flat transparent blue-text text-darken-4">Edit Post</a>
-                    </div>
-                    <div class="col s3">
-                        <input type= "hidden" name="postId" value="<%= post.id %>">
-                        <button class="btn red post-btn">Delete Post</button>
-                    </div>
-                </div>
-            <% } %>
-            
-            </div>
-            
+            </div>            
         </div>
-        
     </div>
-
+</div>
+            
+    
     <div class="container">
         <h6>Comments</h6>
         <div class="container">
@@ -52,31 +38,27 @@
                     <p class="flow-text red-text nocomment">No Comments available. Be the first to comment</p>
                 <% } %>
                 <% for( let index = 0; index < comments.length; index++ ) { %>
-                    <div class="<%= comments[index].id %>">
+                    <div id="<%= comments[index].id %>">
                         <div class="row">
                             <img src="img/header.jpg" class="col s2 circle" alt="" srcset="">
                             <div class="col s3">
-                                <p id = "name" style="font-size: x-small;" class="col s12"><%= comments[index].name %></p>
-                                <p class="col blue-text s12" style="font-size: x-small;" id= "email"><%= comments[index].email %></p>
+                                <p id = "name" style="font-size: xx-small;" class="col s12"><%= comments[index].name %></p>
+                                <p class="col blue-text s12" style="font-size: xx-small;" id= "email"><%= comments[index].email %></p>
                             </div>                        
-                            <p class="col offset-s3 offset-m3 offset-l3 s4" style="font-size: x-small;"><%= comments[index].date %></p>
+                            <p class="col offset-s3 offset-m3 offset-l3 s4" style="font-size: xx-small;"><%= comments[index].date %></p>
                         </div>
                         <div class="row container">
+                            <input name= "commentId" type="hidden" value="<%= comments[index].id %>"/>
                             <p id = "body" class="col s12"><%= comments[index].body %></p>
                         </div>
-                        <% if (comments[index].email == user.email) { %>
-                            <div class="row">
-                                <input name= "commentId" type="hidden" value="<%= comments[index].id %>"/>
-                                <p class="col s3 blue-text reply-btn" style="cursor: pointer; font-size: xx-smaller !important;"><i  class="material-icons tiny left">reply</i>Reply</p>
-                                <p style="font-size: xx-small; cursor: pointer;" class="col s4 blue-text edit-btn"><i class="material-icons left">edit</i>Edit</p>
-                                <p style="font-size: xx-small; cursor: pointer;" class="col s4 red-text delete-btn"><i class="material-icons left">delete</i>Delete</p>
-                            </div>
-                        <% } %>
+                        <div class="row">
+                            <p class="col s3 blue-text reply-btn" style="cursor: pointer; font-size: xx-smaller !important;"><i  class="material-icons tiny left">reply</i>Reply</p>
+                        </div>
                     </div>
                     <% if (comments[index].replies.length >= 1) { %>
-                        <p class="container replies">Replies</p>
+                        <p>Replies</p>
                         <% for( let j =0; j < comments[index].replies.length; j++ ) { %>
-                            <div class="container <%= comments[index].replies[j].id  %>">
+                            <div>
                                 <div class = "row">
                                     <div class="row">
                                         <img src="img/header.jpg" class="col s2 circle" alt="reader-image">
@@ -87,15 +69,9 @@
                                         <p class="col offset-s3 offset-m3 offset-l3 s4" style="font-size: xx-small;"><%= comments[index].replies[j].date %></p>
                                     </div>
                                     <div class="row container">
+                                        <input type="hidden" value="<%= comments[index].replies[j].id %>"/>
                                         <p class="col s12"><%= comments[index].replies[j].body %></p>
                                     </div>
-                                    <% if (comments[index].replies[j].email == user.email) { %>
-                                        <div class="row container">
-                                            <input type="hidden" value="<%= comments[index].replies[j].id %>"/>
-                                            <p style="font-size: xx-small;" class="col s4 blue-text"><i class="material-icons left">edit</i>Edit</p>
-                                            <p style="font-size: xx-small;" class="col s4 red-text"><i class="material-icons left">delete</i>Delete</p>
-                                        </div>
-                                    <% } %>
                                 </div>
                             </div>
                         <% } %>
@@ -105,7 +81,6 @@
             </div>      
         </div>
     </div>
-
 
     <div class="container">
         <h6>Add Comment</h6>
@@ -117,13 +92,13 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <label for="name">Name:<strong class="red-text">*</strong></label>
-                                <input name="name" value="<%= user.username %>" disabled type="text">
+                                <input name="name" type="text">
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <label for="email">Email:</label>
-                                <input name="email" value="<%= user.email %>" disabled type="email">
+                                <input name="email" type="email">
                             </div>
                         </div>
                         <div class="row">
@@ -147,7 +122,6 @@
         </div>
         
     </div>
-    
 
-    <script src="/js/dashboardScript.js"></script>
-<%- include('../../include/end.ejs') %> 
+    <script src="/js/script.js"></script>
+<%- include('./include/end.ejs') %>

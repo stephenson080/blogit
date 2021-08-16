@@ -4,13 +4,14 @@ const { body, check } = require('express-validator')
 
 
 
-const { getAddPostPage, getAllPostPage, getEditPostPage, getMyPostPage, addPost, deletePost, editPost, getPostDetailsPage } = require('../controllers/post')
+const { getAddPostPage, getAllPostPage, getEditPostPage, getMyPostPage, addPost, deletePost, 
+    editPost, getPostDetailsPage, editComment } = require('../controllers/post')
 
 router.get('/add-post', getAddPostPage)
 router.get('/all-posts', getAllPostPage)
 router.get('/edit-post/:postId', getEditPostPage)
 router.post('/edit-post', [
-    body('title').trim().isLength({ min: 1 }).withMessage('Please the Post Title Field is needed'),
+    body('title').isLength({ min: 1 }).withMessage('Please the Post Title Field is needed'),
     check('posttype').isLength({ min: 1 }).withMessage('Please the Post type is needed'),
     body('postbody').isLength({ min: 40 })
     .withMessage('Post Body is too short must be 40 Characters least')
@@ -23,6 +24,10 @@ body('postbody').isLength({ min: 40 })
 ], addPost)
 router.delete('/delete-post', deletePost)
 router.get('/view-post/:postId', getPostDetailsPage)
+router.post('/edit-comment', [
+    body('name').isLength({min: 1}).withMessage('Please the name field is needed'),
+    body('body').isLength({min: 1}).withMessage('Please the comment field is needed')
+], editComment)
 
 
 

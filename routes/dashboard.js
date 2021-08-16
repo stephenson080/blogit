@@ -3,7 +3,6 @@ const {body} = require('express-validator')
 const router = express.Router()
 const {getDashboard, getProfilePage, changeProfileDetails} = require('../controllers/dashboard')
 
-const Author = require('../models/blogger')
 
 router.get('/dashboard', getDashboard )
 router.get('/profile', getProfilePage)

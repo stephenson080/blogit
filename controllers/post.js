@@ -1,10 +1,11 @@
 const Category = require('../models/category')
 const path = require('path')
 const Post = require('../models/post')
-const Author = require('../models/blogger')
+const ReplyToComment = require('../models/replyToComment')
+const Comment = require('../models/comment')
 const { validationResult } = require('express-validator')
 const moment = require('moment')
-const { delefile, getPostById } = require('../utils/helpers')
+const { delefile, getPostById, getCommentsByPostId, getAllPosts, getCommentById } = require('../utils/helpers')
 
 
 
@@ -101,21 +102,7 @@ exports.getAllPostPage = async (req, res, next) => {
     const user = req.user
     let posts = []
     try {
-        const fetedPosts = await Post.findAll()
-        for (let post of fetedPosts) {
-            let authorName = await Author.findByPk(post.dataValues.bloggerId)
-            console.log(authorName.dataValues.username)
-            posts.push({
-                id: post.dataValues.id,
-                title: post.dataValues.head_line,
-                categoryId: post.dataValues.categoryId,
-                likes: post.dataValues.likes,
-                date_time: post.dataValues.date_time,
-                body: post.dataValues.body,
-                author: req.user.id == authorName.dataValues.id ? 'Me' : authorName.dataValues.username,
-                imageUrl: post.dataValues.imageUrl
-            })
-        }
+        posts = await getAllPosts()
         res.render('dashboard/post/allposts', {
             title: 'All Post',
             user,
@@ -127,11 +114,30 @@ exports.getAllPostPage = async (req, res, next) => {
 
 }
 exports.deletePost = async (req, res, next) => {
-    const user = req.user
     const { postId } = req.body
     try {
         const post = await Post.findByPk(postId)
+        const comments = await Comment.findAll({
+            where: {
+                postId: postId
+            }
+        })
         if (post) {
+            for (let comment of comments) {
+                const replies = await ReplyToComment.findAll({
+                    where: {
+                        commentId: comment.dataValues.id
+                    }
+                })
+                if (replies.length >= 1){
+                    for (let reply of replies){
+                        // delefile(reply.dataValues.imageUrl)
+                        await reply.destroy()
+                    }
+                }
+                // delefile(comment.dataValues.imageUrl)
+                await comment.destroy()
+            }
             await post.destroy()
             delefile(post.dataValues.imageUrl)
             return res.json({ message: 'Post Successfully Deleted' })
@@ -226,7 +232,6 @@ exports.editPost = async (req, res, next) => {
                 id: postId
             }
         })
-        console.log(upPost)
         return res.render(`dashboard/post/editpost`, {
             title: 'Add Post',
             user,
@@ -240,14 +245,53 @@ exports.editPost = async (req, res, next) => {
     }
 }
 
+exports.editComment = async (req, res, next) => {
+    const {name, body, email, commentId} = req.body
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            const error = new Error("Validation Failed")
+            error.data = errors.array()
+            return res.json({
+                message: error.message,
+                errorDetails: error.data
+            })
+        }
+        const comment = await getCommentById(commentId)
+        if (!comment) {
+            throw new Error('Something went wrong')
+        }
+        const dateString = moment().utcOffset(60).format('hh:mm DD MMMM YYYY')
+        await Comment.update({
+            email,
+            name,
+            date_time: dateString,
+            body
+        },
+        {
+            where: {
+                id: commentId
+            }
+        })
+        return res.json({
+            message: 'Operation Successful',
+            comment
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 exports.getPostDetailsPage = async (req, res, next) => {
     const user = req.user
     const postId = req.params.postId
     const post = await getPostById(postId)
+    const { comments } = await getCommentsByPostId(postId)
     res.render('dashboard/post/postdetails', {
+        comments,
         title: 'View Post',
         user,
-        post
+        post,
     })
 }
 exports.getMyPostPage = async (req, res, next) => {
@@ -259,16 +303,20 @@ exports.getMyPostPage = async (req, res, next) => {
                 bloggerId: req.user.id
             }
         })
+
         for (let post of fetedPosts) {
+            const category = await Category.findByPk(post.dataValues.categoryId)
+            const { noOfComments } = await getCommentsByPostId(post.dataValues.id)
             posts.push({
                 id: post.dataValues.id,
                 title: post.dataValues.head_line,
-                categoryId: post.dataValues.categoryId,
+                category: category.dataValues.name,
                 likes: post.dataValues.likes,
                 date_time: post.dataValues.date_time,
                 body: post.dataValues.body,
                 author: 'Me',
-                imageUrl: post.dataValues.imageUrl
+                imageUrl: post.dataValues.imageUrl,
+                noOfComments: noOfComments
             })
         }
 
@@ -277,7 +325,8 @@ exports.getMyPostPage = async (req, res, next) => {
             user,
             posts
         })
-    }catch (error) {
+    } catch (error) {
         next(error)
     }
 }
+

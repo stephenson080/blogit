@@ -3,8 +3,9 @@
     flex-direction: row;
     padding: 10px;
     width: 100% !important;
-    height: 250px;
+    /* height: 280px; */
     margin: 35px 0;
+    cursor: pointer;
 }
 
 .post:hover{

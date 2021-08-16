@@ -5,7 +5,7 @@
 </head>
 <body bgcolor="whitesmoke">
     <%- include('../include/nav.ejs') %>
-    <div class="<%= errorDetails.find(e => e.msg != undefined) ? 'alert' : ''%> <%= errorMessage == 'Operation Successful' ? 'success' : 'fail' %>  ">
+    <div class="<%= errorDetails.find(e => e.msg != undefined) ? 'alert' : ''%> <%= errorMessage == 'Operation Successful' ? 'success' : errorMessage == '' ? '' : 'fail' %>">
         <span  class="closebtn" >&times;</span>
         <% if (errorDetails.length >= 1) { %>
             <div class="row">
@@ -47,7 +47,7 @@
                         </div>
                         <div class="row">
                             <div class="col s4 offset-s8 offset-m8 offset-l8 m4">
-                                <button class="btn-small #ff5252 red accent-2 ">Update</button>
+                                <button class="btn-small blue">Update</button>
                             </div>
                         </div>
                     </form>

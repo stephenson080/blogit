@@ -2,11 +2,11 @@
 <link rel="stylesheet" href="/css/form.css"/>
 <link rel = "stylesheet" href="/css/post.css"/>
 </head>
-<body>
+<body bgcolor="whitesmoke">
     <%- include("./include/main-nav.ejs")  %>
 
         <div class="container">
-            <h1 class="blue-text">What is Blogit?</h1>
+            <h1>What is Blogit?</h1>
             <div>
                 <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, 
                     sed do eiusmod tempor 
@@ -14,32 +14,22 @@
                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
                 </p>
             </div>
-            <a href="/login" class="btn-large waves-effect waves-light #ff5252 red accent-2">Join Blogit</a>
+            <a href="/login" class="btn-large waves-effect waves-light blue blue-darken-3 white-text ">Join Blogit ></a>
         </div>
         <div class="container">
           <div class="slideshow-container">
 
             <!-- Full-width images with number and caption text -->
-            <div class="mySlides fade">
-              <div class="numbertext">1 / 3</div>
-              <img src="img/image.jpeg" style="width:100%">
-              <div class="text">Caption Text</div>
-            </div>
-          
-            <div class="mySlides fade">
-              <div class="numbertext">2 / 3</div>
-              <img src="/img/scott-graham-5fNmWej4tAA-unsplash.jpg" style="width:100%">
-              <div class="text">Caption Two</div>
-            </div>
-          
-            <div class="mySlides fade">
-              <div class="numbertext">3 / 3</div>
-              <img src="/img/imagebackground.jpeg" style="width:100%">
-              <div class="text">Caption Three</div>
-            </div>
-          
+            <% for( let index = 0; index < homePageImages.length; index++ ) { %>
+              <div>
+                <div class="mySlides fade">
+                  <div class="numbertext flow-text"><%= ++index %>/<%= homePageImages.length %> </div>
+                  <img src="img/<%= homePageImages[index].image %> " style="width:100%">
+                  <p class="flow-text">Read and Create Posts on <%= homePageImages[index].name %> and lots more </p>
+                </div>
+              </div>
+            <% } %>
             <!-- Next and previous buttons -->
-            
           </div>
         </div>
     
@@ -52,57 +42,45 @@
         <span class="dot" onclick="currentSlide(3)"></span>
       </div> -->
     <hr style="width: 100%; border: 0.3px solid #ccc; margin: 30px 0" />
+    
     <div class="container">
-        <h4>Trending Posts</h4>
-        <div class="container">
-            <%- include('./include/post.ejs')  %>
-        </div>
-        <div class="container">
-            <%- include('./include/post.ejs')  %>
-        </div>
-         <div class="container">
-            <%- include('./include/post.ejs')  %>
-         </div>
-    </div>
+      <h5>All Posts</h5>
+      <div class="container">
+          <% for( let index = 0; index < posts.length; index++ ) { %>
+              <article class="post white">
+                  <div class="post-image">
+                      <img src="<%= posts[index].imageUrl %> " alt="post image">
+                  </div>
+                  <div class="body">
+                      <div class="title">
+                          <p><%= posts[index].title %> </p>
+                      </div>
+                      
+                      <div class="detail">
+                          <p class="blogger">Author: <strong><%= posts[index].author %> </strong></p>
+                          <p class="date-time"><%= posts[index].date %></p>
+                      </div>
+                      <div class="content">
+                          <p class="truncate"><%= posts[index].body %> 
+                          <input type= "hidden" name="postId" value="<%= posts[index].id %>">
+                          </p> <a href="/view-post/<%= posts[index].id %> " class="btn-small white-text btn-flat blue">Read more</a>
+                          <div class="row">
+                            <p class="col s6"><%= posts[index].category %> </p>
+                            <p class="col s3 black-text"><%= posts[index].likes %><i class="material-icons left red-text">favorite</i></p>
+                            <P class="col s3 blact-text"><%= posts[index].noOfComments %>  <i class="material-icons left blue-text">comment</i></P>
+                          </div>
+                      </div>
+                  </div>
+              </article>
+          <% } %>
+      </div>       
+  </div>
     <div class="container">
-      <h4 style="margin: 15px 0;">More Posts</h4>
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="card">
-            <div class="card-image">
-              <img src="img/images.jpeg">
-              <span class="card-title">Card Title</span>
-              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col s12 m4">
-          <div class="card">
-            <div class="card-image">
-              <img src="img/background-image.jpg">
-              <span class="card-title">Card Title</span>
-              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col s12 m4">
-          <div class="card">
-            <div class="card-image">
-              <img src="img/header.jpg">
-              <span class="card-title">Card Title</span>
-              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
-          </div>
-        </div>
+      <h4 style="margin: 15px 0;">More Categories</h4>
+      <div class="row white">
+        <% for( let index = 0; index < cat.length; index++  ) { %>
+            <a href="/posts/<%= cat[index].id %>" style="border: 1px solid #ccc; cursor: pointer; padding: 10px; margin: 10px 15px; border-radius: 20px; color: black;" class="col s4 m3 l2"><%= cat[index].category %></a>
+        <% } %>
       </div>
     </div>
     

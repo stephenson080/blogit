@@ -7,6 +7,14 @@
     <div class="container">
         <div class="container">
             <h5>My Posts</h5>
+            <% if (posts.length == 0) { %>
+                <div class="container white">
+                    <div class="row">
+                        <p class="col s12 flow-text">Seems like no Post have beeen uplaod. Click the below below button to add a post</p>
+                        <a href="/dashboard/posts/add-post" class="col s4 btn-small blue white-text">Add a Post</a>
+                    </div>
+                </div>
+            <% } %>
             <% for( let index = 0; index < posts.length; index++ ) { %>
                 <article class="post white">
                     <div class="post-image">
@@ -24,8 +32,12 @@
                         <div class="content">
                             <p class="truncate"><%= posts[index].body %></p>
                             <input type= "hidden" name="postId" value="<%= posts[index].id %>"> 
+                            <div class="row">
+                                <p class="col s6"><%= posts[index].category %> </p>
+                                <P class="col s3"><%= posts[index].noOfComments %> <i class="material-icons left blue-text">comment</i></P>
+                              </div>
                             <a href="/dashboard/posts/view-post/<%= posts[index].id %> " class="btn-small white-text btn-flat blue">Read more</a>
-                            <a href="/dashboard/posts/edit-post/<%= posts[index].id %>" class="btn-small btn-flat transparent green-text">Edit Post</a>
+                            <a href="/dashboard/posts/edit-post/<%= posts[index].id %>" class="btn-small btn-flat transparent blue-text">Edit Post</a>
                             <button class="btn-small btn-flat transparent red-text postbtn">Delete Post</button>
                         </div>
                     </div>

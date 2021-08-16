@@ -12,6 +12,7 @@ const Category = require('./models/category')
 const Author = require('./models/blogger')
 const Post = require('./models/post')
 const Comment = require('./models/comment')
+const ReplyToComment = require('./models/replyToComment')
 
 // app.use(fileUpload({parseNested: true, debug: true}))
 
@@ -68,6 +69,9 @@ app.set('view engine', 'ejs')
 app.use(auth(auth0Config))
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use('/', express.static(path.join(__dirname, 'images')))
+app.use('/view-post', express.static(path.join(__dirname, 'public')))
+app.use('/view-post', express.static(path.join(__dirname, 'images')))
 app.use('/dashboard/posts', express.static(path.join(__dirname, 'public')))
 app.use('/dashboard/posts', express.static(path.join(__dirname, 'images')))
 app.use('/dashboard/posts/edit-post', express.static(path.join(__dirname, 'public')))
@@ -121,7 +125,7 @@ app.use((error, req, res, next) => {
 // apps entry point
 dbConnnection
     .sync()
-    .then(res => {
+    .then(async res => {
         app.listen(PORT, function () {
             console.log(`server running on ${PORT}`)
         })

@@ -2,10 +2,41 @@
   font-size: xx-small;
 }
 .dropdown-content {
-  width: 200px !important;
+  width: 180px !important;
+  top: 50px !important;
+}
+.dropdown-content li a{
+  font-size: small !important;
+}
+.container .white {
+  padding: 30px;
+  margin: 40px 0;
+}
+@media screen and (min-with: 481px) and (max-width: 760px) {
+  .dropdown-content {
+    left: 20% !important;
+    top: 35% !important;
+  }
+}
+
+@media screen and (max-with: 480px) {
+  .dropdown-content {
+    left: 20% !important;
+    top: 28% !important;
+  }
 }
 
 * {box-sizing:border-box}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
 
 /* Slideshow container */
 .slideshow-container {
@@ -59,7 +90,7 @@
 
 /* Number text (1/3 etc) */
 .numbertext {
-  color: #f2f2f2;
+  color: rgb(185, 3, 3);
   font-size: 12px;
   padding: 8px 12px;
   position: absolute;
@@ -78,17 +109,18 @@
   transition: background-color 0.6s ease;
 }
 
-.active, .dot:hover {
+/* .active, .dot:hover {
   background-color: #717171;
-}
+} */
 
 /* Fading animation */
 .fade {
   -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
+  -webkit-animation-duration: .5s;
   animation-name: fade;
-  animation-duration: 1.5s;
+  animation-duration: .5s;
 }
+
 
 @-webkit-keyframes fade {
   from {opacity: .4}
