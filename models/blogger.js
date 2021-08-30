@@ -4,9 +4,8 @@ const {DataTypes} = require('sequelize');
 
 const Blogger = sequelize.define('blogger', {
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false
     },
     email : {
@@ -16,7 +15,14 @@ const Blogger = sequelize.define('blogger', {
     username: DataTypes.STRING,
     imageUrl: DataTypes.TEXT,
     // password: DataTypes.STRING,
-    accountType: DataTypes.STRING
+    role: {
+        type: DataTypes.STRING,
+        defaultValue: 'author'
+    },
+    approved: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    }
 })
 
 module.exports = Blogger

@@ -6,7 +6,7 @@ const {getDashboard, getProfilePage, changeProfileDetails} = require('../control
 
 router.get('/dashboard', getDashboard )
 router.get('/profile', getProfilePage)
-router.post('/update-profile', [body('username').isLength({min: 6}).withMessage('Please your Username should be greater than 6 characters'),
+router.post('/update-profile', [body('email').isEmail().withMessage('Please enter a correct email')
 ], changeProfileDetails)
 
 module.exports = router

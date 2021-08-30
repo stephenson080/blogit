@@ -28,13 +28,17 @@ const PostModel = sequelize.define('post', {
         }
     },
     bloggerId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         references: {
             model: Blogger,
             key: 'id'
         }
     },
-    likes: DataTypes.INTEGER
+    likes: DataTypes.INTEGER,
+    approved: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    }
 })
 
 module.exports = PostModel

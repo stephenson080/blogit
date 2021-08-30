@@ -20,6 +20,7 @@ const indexroutes = require('./routes/indexRoutes')
 const { getIndexOrDashBoardPage } = require('./controllers/index')
 const dashboardRoutes = require('./routes/dashboard')
 const postRoutes = require('./routes/post')
+const adminRoutes = require('./routes/adminRoutes')
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
@@ -27,10 +28,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 // file handling with multer
 const fileStorage = multer.diskStorage({
-    destination: (req,file,cb)=>{
+    destination: (req, file, cb) => {
         cb(null, "images")
     },
-    filename: (req,file,cb)=>{
+    filename: (req, file, cb) => {
         cb(null, Date.now().toString() + "_" + file.originalname)
     }
 })
@@ -60,7 +61,7 @@ const PORT = process.env.PORT
 app.use(helmet())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(multer({storage: fileStorage}).single('postimage'))
+app.use(multer({ storage: fileStorage }).single('imageUrl'))
 
 // S
 // app.use(cors())
@@ -72,29 +73,46 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', express.static(path.join(__dirname, 'images')))
 app.use('/view-post', express.static(path.join(__dirname, 'public')))
 app.use('/view-post', express.static(path.join(__dirname, 'images')))
+app.use('/dashboard/profile', express.static(path.join(__dirname, 'public')))
+app.use('/dashboard/profile', express.static(path.join(__dirname, 'images')))
 app.use('/dashboard/posts', express.static(path.join(__dirname, 'public')))
 app.use('/dashboard/posts', express.static(path.join(__dirname, 'images')))
 app.use('/dashboard/posts/edit-post', express.static(path.join(__dirname, 'public')))
 app.use('/dashboard/posts/edit-post', express.static(path.join(__dirname, 'images')))
 app.use('/dashboard/posts/view-post', express.static(path.join(__dirname, 'public')))
 app.use('/dashboard/posts/view-post', express.static(path.join(__dirname, 'images')))
+app.use('/admin/users/view-users', express.static(path.join(__dirname, 'public')))
+app.use('/admin/users/view-users', express.static(path.join(__dirname, 'images')))
+app.use('/admin/', express.static(path.join(__dirname, 'public')))
+app.use('/admin/', express.static(path.join(__dirname, 'images')))
+app.use('/admin/posts/', express.static(path.join(__dirname, 'public')))
+app.use('/admin/posts/', express.static(path.join(__dirname, 'images')))
+app.use('/admin/posts/review-post', express.static(path.join(__dirname, 'public')))
+app.use('/admin/posts/review-post', express.static(path.join(__dirname, 'images')))
+app.use('/admin/categories/', express.static(path.join(__dirname, 'public')))
+app.use('/admin/categoris/', express.static(path.join(__dirname, 'images')))
+app.use('/admin/categories/view-categories', express.static(path.join(__dirname, 'public')))
+app.use('/admin/categories/view-categories', express.static(path.join(__dirname, 'images')))
+app.use('/admin/categories/edit-category/', express.static(path.join(__dirname, 'public')))
+app.use('/admin/categories/edit-category/', express.static(path.join(__dirname, 'images')))
 app.use('/css', express.static(path.join(__dirname, 'node_modules/materialize-css/dist/css')))
 app.use('/js', express.static(path.join(__dirname, 'node_modules/materialize-css/dist/js')))
 
-app.use( async (req, res, next) => {
+app.use(async (req, res, next) => {
     if (req.oidc.user) {
-        const user =  await Author.findAll({
-            where: { email: req.oidc.user.email }
+        const user = await Author.findAll({
+            where: { id: req.oidc.user.sub }
         })
         if (user[0]) {
             req.user = {
-                id: user[0].id,
-                email: user[0].email,
-                username: user[0].username,
-                imageUrl: user[0].imageUrl
+                id: user[0].dataValues.id,
+                email: user[0].dataValues.email,
+                username: user[0].dataValues.username,
+                imageUrl: user[0].dataValues.imageUrl,
+                role: user[0].dataValues.role
             }
+            return next()
         }
-        return next()
     }
     next()
 })
@@ -106,24 +124,30 @@ app.use((req, res, next) => {
 app.use(indexroutes)
 app.use(dashboardRoutes)
 app.get('/', (req, res, next) => {
-    console.log(req.oidc)
     const isAuthenticated = req.oidc.isAuthenticated();
     const user = req.oidc.user
     getIndexOrDashBoardPage(req, res, next, isAuthenticated, user)
 })
 app.use('/dashboard/posts', postRoutes)
+app.use('/admin', adminRoutes)
 
 
 
 
 app.use((error, req, res, next) => {
     console.log(error)
+    if (error.statusCode) {
+        return res.json({
+            message: error.message
+        })
+    }
     res.redirect('/500')
 })
 
 
 // apps entry point
 dbConnnection
+    // .sync({force: true})
     .sync()
     .then(async res => {
         app.listen(PORT, function () {

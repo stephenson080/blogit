@@ -5,7 +5,7 @@ const ReplyToComment = require('../models/replyToComment')
 const Comment = require('../models/comment')
 const { validationResult } = require('express-validator')
 const moment = require('moment')
-const { delefile, getPostById, getCommentsByPostId, getAllPosts, getCommentById } = require('../utils/helpers')
+const { delefile, getPostById, getCommentsByPostId, getAllPosts, getCommentById, getReplyById } = require('../utils/helpers')
 
 
 
@@ -135,7 +135,7 @@ exports.deletePost = async (req, res, next) => {
                         await reply.destroy()
                     }
                 }
-                // delefile(comment.dataValues.imageUrl)
+                 delefile(comment.dataValues.imageUrl)//
                 await comment.destroy()
             }
             await post.destroy()
@@ -258,7 +258,7 @@ exports.editComment = async (req, res, next) => {
             })
         }
         const comment = await getCommentById(commentId)
-        if (!comment) {
+        if (!comment.id) {
             throw new Error('Something went wrong')
         }
         const dateString = moment().utcOffset(60).format('hh:mm DD MMMM YYYY')
@@ -273,9 +273,105 @@ exports.editComment = async (req, res, next) => {
                 id: commentId
             }
         })
+        const updatedComment = {
+            ...comment,
+            email: email,
+            name: name,
+            body: body,
+            date: dateString
+        }
         return res.json({
             message: 'Operation Successful',
-            comment
+            comment: updatedComment
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+exports.editReply = async (req, res, next) => {
+    const {name, body, email, commentId} = req.body
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            const error = new Error("Validation Failed")
+            error.data = errors.array()
+            return res.json({
+                message: error.message,
+                errorDetails: error.data
+            })
+        }
+        const reply = await getReplyById(commentId)
+        if (!reply.id) {
+            throw new Error('No record Found')
+        }
+        const dateString = moment().utcOffset(60).format('hh:mm DD MMMM YYYY')
+        await ReplyToComment.update({
+            name,
+            email,
+            body,
+            date_time: dateString
+        }, {
+            where: {
+                id: commentId
+            }
+        })
+        const updateReply = {
+            ...reply,
+            email: email,
+            name: name,
+            body: body,
+            date: dateString
+        }
+        res.json({
+            message: 'Operation Successful',
+            reply: updateReply
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+exports.deleteReply = async (req, res, next) => {
+    const {commentId} = req.params
+    try {
+        const reply = await ReplyToComment.findByPk(commentId)
+        if (!reply) {
+            throw new Error('No record Found')
+        }
+        // delefile(reply.dataValues.imageUrl)
+        await reply.destroy()
+        res.json({
+            message: 'Operation Successful'
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+exports.deleteComment = async (req, res, next) => {
+    const {commentId} = req.params
+    try {
+        const comment = await Comment.findByPk(commentId)
+        if (!comment) {
+            throw new Error('No record Found')
+        }
+        
+        const replies = await ReplyToComment.findAll({
+            where: {
+                commentId: comment.dataValues.id
+            }
+        })
+        if (replies.length >= 1) {
+            for (let reply of replies) {
+                // delefile(reply.dataValues.imageUrl)
+                await reply.destroy()
+            }
+        }
+        // delefile(comment.dataValues.imageUrl)
+        await comment.destroy()
+        res.json({
+            message: 'Operation Successful'
         })
     } catch (error) {
         next(error)

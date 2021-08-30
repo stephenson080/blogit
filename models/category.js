@@ -11,7 +11,8 @@ const CategoryModel = sequelize.define('category', {
     name: {
         type: DataTypes.STRING(20),
         allowNull: false
-    }
+    },
+    imageUrl: DataTypes.STRING
 })
 
 module.exports = CategoryModel

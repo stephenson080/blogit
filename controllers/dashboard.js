@@ -42,16 +42,22 @@ exports.changeProfileDetails = async (req, res, next) => {
                 errorDetails: error.data
             })
         }
+        if (!req.file) {
+            return res.render('dashboard/profile', {
+                title: 'Profile',
+                user,
+                errorMessage: 'Validation Failed',
+                errorDetails: [{msg: 'Please upload a profile pics'}]
+            })
+        }
         await Author.update({
-            username: req.body.username
+            username: req.body.username,
+            email: req.body.email,
+            imageUrl: req.file.filename
         }, {where: {id: req.user.id}})
         return res.render('dashboard/profile', {
             title: 'Profile',
-            user: {
-                email: req.user.email,
-                username: req.body.username,
-                imageUrl: req.user.imageUrl
-            },
+            user: req.user,
             errorMessage: 'Operation Successful',
             errorDetails: [{msg: "You have Successfully Change your Profile"}]
         })

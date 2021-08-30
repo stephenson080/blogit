@@ -4,7 +4,7 @@ const Post = require('../models/post')
 const Author = require('../models/blogger')
 const Comment = require('../models/comment')
 const Category = require('../models/category')
-const replyToComment = require('../models/replyToComment')
+const ReplyToComment = require('../models/replyToComment')
 
 exports.delefile = imageUrl => {
     const filePath = path.join(__dirname, '..', 'images', imageUrl)
@@ -83,7 +83,7 @@ exports.getCommentsByPostId = async (postId) => {
             }
         })
         for (let comment of fetctedComments.rows) {
-            const fetchedReplies = await replyToComment.findAll({
+            const fetchedReplies = await ReplyToComment.findAll({
                 where: {
                     commentId: comment.dataValues.id
                 }
@@ -99,9 +99,9 @@ exports.getCommentsByPostId = async (postId) => {
                         date: reply.dataValues.date_time,
                         email: reply.dataValues.email
                     })
-                    
+
                 }
-                
+
             }
             comments.push({
                 id: comment.dataValues.id,
@@ -113,7 +113,7 @@ exports.getCommentsByPostId = async (postId) => {
                 postId: comment.dataValues.postId,
                 replies: replies
             })
-           
+
         }
         return {
             comments,
@@ -132,8 +132,8 @@ exports.getCommentById = async (commentId) => {
         if (!fetchedComment) {
             return {}
         }
-        
-        const fetchedReplies = await replyToComment.findAll({
+
+        const fetchedReplies = await ReplyToComment.findAll({
             where: {
                 commentId: fetchedComment.dataValues.id
             }
@@ -161,6 +161,27 @@ exports.getCommentById = async (commentId) => {
             replies: replies
         }
         return comment
+    } catch (error) {
+        throw error
+    }
+}
+
+exports.getReplyById = async (commentId) => {
+    let reply = {}
+    try {
+        const fetchedReply = await ReplyToComment.findByPk(commentId)
+        if (!fetchedReply) {
+            throw new Error('No record found')
+        }
+        reply = {
+            name: fetchedReply.dataValues.name,
+            id: fetchedReply.dataValues.id,
+            body: fetchedReply.dataValues.body,
+            imageUrl: fetchedReply.dataValues.imageUrl,
+            date: fetchedReply.dataValues.date_time,
+            email: fetchedReply.dataValues.email
+        }
+        return reply
     } catch (error) {
         throw error
     }

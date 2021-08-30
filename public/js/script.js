@@ -2,6 +2,8 @@
 const clearBtn = document.getElementsByClassName('clear-btn')[0]
 if (clearBtn) {
   clearBtn.addEventListener('click', function () {
+    document.getElementById('add-comment-btn').innerHTML = 'Comment'
+    document.getElementById('comment-header').innerHTML = 'Add Comment'
     const addCommentBox = document.getElementsByClassName('add-comment')[0]
     const existCommentIdElem = addCommentBox.querySelector('[name=commentId]')
     if (existCommentIdElem) {
@@ -18,17 +20,18 @@ for (let i = 0; i < replyBtns.length; i++) {
   const commentDiv = replyBtns[i].parentNode.parentNode
   const commentIdElem = commentDiv.querySelector('[name=commentId]')
   const addCommentBox = document.getElementsByClassName('add-comment')[0]
-  console.log('hello')
-  replyBtns[i].addEventListener('click', function(){
-  const existingCommentIdElem = addCommentBox.querySelector('[name=commentId]')
-  const copyOfCurrentIdElem = commentIdElem.cloneNode()
-  if (existingCommentIdElem) {
-    existingCommentIdElem.remove()
-  }
-  addCommentBox.append(copyOfCurrentIdElem)
-  setTimeout(function() {
-    addCommentBox.scrollIntoView()
-  }, 700)
+  replyBtns[i].addEventListener('click', function () {
+    const existingCommentIdElem = addCommentBox.querySelector('[name=commentId]')
+    const copyOfCurrentIdElem = commentIdElem.cloneNode()
+    if (existingCommentIdElem) {
+      existingCommentIdElem.remove()
+    }
+    document.getElementById('add-comment-btn').innerHTML = 'Post Reply'
+    document.getElementById('comment-header').innerHTML = 'Add a Reply'
+    addCommentBox.append(copyOfCurrentIdElem)
+    setTimeout(function () {
+      addCommentBox.scrollIntoView()
+    }, 700)
   })
 }
 const commentBtn = document.getElementsByClassName('comment-btn')[0]
@@ -42,20 +45,24 @@ if (commentBtn) {
     let email = inp[1].value
     let body = textarea.value
     let commentIdElem = commentBox.querySelector('[name=commentId]')
-    const res = addOrReplyComment(name, email, body, postId, commentIdElem)
-    if (res == 'Operation Successful') {
-      inp[0] = ''
-      inp[1] = ''
-      textarea.value = ''
-      if (commentIdElem) {
-        commentIdElem.remove()
-      }
-    }
+    addOrReplyComment(name, email, body, postId, commentIdElem)
+      .then(res => {
+        if (res == 'Operation Successful') {
+          inp[0] = ''
+          inp[1] = ''
+          textarea.value = ''
+          document.getElementById('add-comment-btn').innerHTML = 'Comment'
+          document.getElementById('comment-header').innerHTML = 'Add Comment'
+          if (commentIdElem) {
+            commentIdElem.remove()
+          }
+        }
+      })
   })
 }
 
 async function addOrReplyComment(...args) {
-  const [name,email, body, postId, commentIdElem ] = args
+  const [name, email, body, postId, commentIdElem] = args
   if (commentIdElem && commentIdElem != null) {
     let commentId = commentIdElem.value
     try {
@@ -81,11 +88,11 @@ async function addOrReplyComment(...args) {
         const replyDiv = createReplyBox(resData.reply.id, resData.reply.name, resData.reply.body, resData.reply.date, resData.reply.email)
         const commentDiv = document.getElementById(commentId)
         commentDiv.append(replyDiv)
-        setTimeout(function(){replyDiv.scrollIntoView()}, 700)
+        setTimeout(function () { replyDiv.scrollIntoView() }, 700)
         return resData.message
       }
       if (resData.message == 'Validation Failed') {
-        alert(resData.message + '\n' + resData.errorDetails[0])
+        alert(resData.message + '\n' + resData.errorDetails[0].msg)
         return resData.message
       }
       alert('Something went wrong')
@@ -96,7 +103,7 @@ async function addOrReplyComment(...args) {
     }
 
   }
-  fetch('http://localhost:3000/view-post/add-comment', {
+  return fetch('http://localhost:3000/view-post/add-comment', {
     headers: {
       'Content-Type': 'application/json'
     },
@@ -122,7 +129,7 @@ async function addOrReplyComment(...args) {
         return resData.message
       }
       if (resData.message == 'Validation Failed') {
-        alert(resData.message + '\n' + resData.errorDetails[0])
+        alert(resData.message + '\n' + resData.errorDetails[0].msg)
         return resData.message
       }
       alert('Something went wrong')
@@ -214,4 +221,12 @@ function showSlides() {
   }
   // Change image every 2 seconds
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const options = {
+    indicator: true
+  }
+  var elems = document.querySelectorAll('.carousel');
+  var instances = M.Carousel.init(elems, options);
+});
 

@@ -131,3 +131,12 @@ main {
   from {opacity: .4}
   to {opacity: 1}
 }
+
+.category {
+  border: 1px solid #ccc; 
+  cursor: pointer; 
+  padding: 8px !important; 
+  margin: 10px 15px; 
+  border-radius: 20px; 
+  color: black;
+}

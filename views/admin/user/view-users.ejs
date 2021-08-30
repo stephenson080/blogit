@@ -1,0 +1,43 @@
+<%- include('../../include/head.ejs')  %>
+<link rel="Stylesheet" href="/css/dashboard.css" />
+</head>
+<body bgcolor="whitesmoke">
+    <%- include('../../include/admin-nav.ejs') %>
+    <div class="container">
+        <div class="container">
+            <h3>All Users</h3>
+            <div class="row">
+                <% for( let index = 0; index < users.length; index++ ) { %>
+                    <% if (users[index].role == 'admin') { %>
+                        <% continue %> 
+                    <% } %>
+                    <div class="col s12 m6">
+                        <div class="card sticky-action">
+                            <div class="card-image waves-effect waves-block waves-light">
+                              <img class="activator" src="<%= users[index].imageUrl %>">
+                            </div>
+                            <div class="card-content">
+                              <span class="card-title tooltipped activator grey-text text-darken-4" data-position="right" data-tooltip="View Details"><%= users[index].username %><i class="material-icons right">more_vert</i></span>
+                              <p class="flow-text">Email: <%=(users[index].email)%> </p>
+                              <div class="card-action">
+                                <input name="userId" type="hidden" value="<%= users[index].id %>">
+                                <a style="cursor: pointer;" class="approve-user">Approve User<i class="material-icons left">edit</i></a>
+                              </div>
+                              <div class="card-action">
+                                <input name="userId" type="hidden" value="<%= users[index].id %>">
+                                <a style="cursor: pointer;" class="red-text delete-user">Delete User<i class="material-icons left">delete</i></a>
+                              </div>
+                            </div>
+                            <div class="card-reveal">
+                              <span class="card-title blue-text text-darken-4"><%= users[index].username %><i class="material-icons right">close</i></span>
+                              <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            </div>
+                          </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        
+    </div>
+    <script src="js/adminScript.js"></script>
+<%- include('../../include/end.ejs') %> 

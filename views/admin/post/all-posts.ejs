@@ -1,0 +1,50 @@
+<%- include('../../include/head.ejs')  %>
+<link rel="Stylesheet" href="/css/dashboard.css" />
+</head>
+<body bgcolor="whitesmoke">
+    <%- include('../../include/admin-nav.ejs') %>
+    <div class="container">
+        <div class="container">
+            <h5>All Posts</h5>
+            <% if (posts.length == 0) { %>
+                <div class="container white">
+                    <div class="row">
+                        <p class="col s12">Seems like no Post have beeen uplaod.Click the below below button to add a post</p>
+                        <a href="/dashboard/posts/add-post" class="col s4 btn-small blue white-text">Add a Post</a>
+                    </div>
+                </div>
+            <% } %>
+            <% for( let index = 0; index < posts.length; index++ ) { %>
+                <article class="post white">
+                    <div class="post-image">
+                        <img src="<%= posts[index].imageUrl %> " alt="post image">
+                    </div>
+                    <div class="body">
+                        <div class="title">
+                            <p><%= posts[index].title %> </p>
+                        </div>
+                        
+                        <div class="detail">
+                            <p class="blogger">Author: <strong><%= posts[index].author %></strong></p>
+                            <p class="date-time"><%= posts[index].date %></p>
+                        </div>
+                        <div class="content">
+                            <p class="truncate"><%= posts[index].body %> 
+                            <input type= "hidden" name="postId" value="<%= posts[index].id %>">
+                            <div class="row">
+                                <p class="col s6"><%= posts[index].category %> </p>
+                                <p class="col s3 black-text"><%= posts[index].likes %><i class="material-icons left red-text">favorite</i></p>
+                                <P class="col s3"><%= posts[index].noOfComments %>  <i class="material-icons left blue-text">comment</i></P>
+                            </div>
+                            </p>
+                            <a href="/admin/posts/review-post/<%= posts[index].id %> " class="btn-small white-text btn-flat blue">Review Post</a>
+                            <button class="btn-small btn-flat transparent red-text postbtn">Delete Post</button>
+                        </div>
+                    </div>
+                </article>
+            <% } %>
+        </div>
+        
+    </div>
+    <script src="js/adminScript.js"></script>
+<%- include('../../include/end.ejs') %> 

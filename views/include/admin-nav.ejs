@@ -1,0 +1,78 @@
+<div class="navbar-fixed">
+  <nav class="#1976d2 blue darken-2">
+    <!-- navbar content here  -->
+    <div class="nav-wrapper transparent">
+      <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"
+        ><i class="material-icons white-text">menu</i></a
+      >
+      <a class="white-text"><%= title %> </a>
+      <ul class="right .hide-on-small-only">
+        <li>
+          <a href="/logout" class="white-text"
+            ><span class="material-icons">logout</span>Logout</a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<ul id="slide-out" class="sidenav">
+  <li>
+    <div class="user-view">
+      <div class="background">
+        <img src="img/blue-background.jpg" />
+      </div>
+      <a href="#user"><img class="circle" src="<%= user.imageUrl %> " /></a>
+      <a href="#name"
+        ><span class="white-text name"><%= user.username %> </span></a
+      >
+      <a href="#email"
+        ><span class="white-text email"><%= user.email %></span></a
+      >
+    </div>
+  </li>
+  <li><a href="/admin/dashboard" class="blue-text text-darken-4">Dashboard</a></li>
+  <li><div class="divider"></div></li>
+  <li><a class="subheader">Manage Users</a></li>
+  <li>
+    <a href="/admin/users/view-users" class="blue-text text-darken-4"
+      >View all Users</a
+    >
+  </li>
+  <li><div class="divider"></div></li>
+  <li><a class="subheader">Manage Posts</a></li>
+  <li>
+    <a href="/admin/posts/all-posts" class="blue-text text-darken-4"
+      >All Posts</a
+    >
+  </li>
+  <li><div class="divider"></div></li>
+  <li><a class="subheader">Manage Categories</a></li>
+  <li>
+    <a class="waves-effect blue-text text-darken-4" href="/admin/categories/view-categories">All Categories</a>
+  </li>
+  <li>
+    <a class="waves-effect blue-text text-darken-4" href="/admin/categories/add-category">Add new Category</a>
+  </li>
+  <li><div class="divider"></div></li>
+  <li>
+    <a class="waves-effect blue-text text-darken-4" href="/logout">Logout</a>
+  </li>
+</ul>
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">mode_edit</i>
+  </a>
+  <ul>
+    <li>
+      <a
+        href="/admin/categories/add-category"
+        class="btn-floating tooltipped red"
+        data-position="left"
+        data-tooltip="Add new Category"
+        ><i class="material-icons">add</i></a
+      >
+    </li>
+  </ul>
+</div>

@@ -1,5 +1,99 @@
+const headers = {
+        'Content-Type': 'application/json'
+}
+const baseUrl = 'http://localhost:3000'
+const approveUserbtn = document.getElementsByClassName('approve-user')
+if (approveUserbtn) {
+    for (let i =0; i< approveUserbtn.length; i++) {
+        approveUserbtn[i].addEventListener('click', async function() {
+            const userId = approveUserbtn[i].parentNode.querySelector('[name=userId]').value
+            console.log(userId)
+            try {
+                const res = await fetch(`${baseUrl}/admin/users/approve-user/${userId}`, {
+                    headers: headers,
+                    method: 'POST'
+                })
+                if (!res.ok) {
+                    throw new Error('Somthing went wrong. try again')
+                }
+
+                const resData = await res.json()
+                console.log(resData.message)
+                if (resData.message == 'Operation Successful') {
+                    alert('You have successfully approve a user')
+                    return
+                }
+                alert('Somthing went wrong')
+            } catch (error) {
+                alert(error.message)
+            }
+        })
+    }
+}
+
+const deleteCatBtn = document.getElementsByClassName('delete-cat')
+if (deleteCatBtn){
+    for (let i = 0; i < deleteCatBtn.length; i++) {
+        deleteCatBtn[i].addEventListener('click', async function() {
+            const categoryCon = deleteCatBtn[i].parentNode.parentNode.parentNode
+            const categoryId = +deleteCatBtn[i].parentNode.querySelector('[name=categoryId]').value
+            console.log(categoryCon, categoryId)
+            try {
+                const res = await fetch(`http://localhost:3000/admin/categories/delete-category/${categoryId}`, {
+                    headers: headers,
+                    method: 'DELETE'
+                })
+                if (!res.ok) {
+                    throw new Error('Something went wrong')
+                }
+                const resData = await res.json()
+                if (resData.message == 'Operation Successful'){
+                    alert('Category Deleted Successfully')
+                    categoryCon.remove()
+                }
+            } catch (error) {
+                alert('Something went wrong')
+            }
+        })
+    }
+}
+
+const approveBtn = document.getElementsByClassName('approve')[0]
+if (approveBtn) {
+    approveBtn.addEventListener('click', async function () {
+        const postId = approveBtn.parentNode.querySelector('[name=postId]').value
+        console.log(postId)
+        try {
+            const res = await fetch(`http://localhost:3000/admin/posts/approve-post/${postId}`, {
+                method: 'POST',
+                headers: headers
+            })
+            if (!res.ok) {
+                throw new Error('Something went wrong. Please try again')
+            }
+            const resData = await res.json()
+            if (resData.message == 'Operation Successful') {
+                approveBtn.innerHTML = 'Approved'
+                return alert('You Have Approve the Post')
+            }
+            return alert('Something went wrong. Please try again')
+        } catch (error) {
+            alert(error.message)
+        }
+    })
+}
+
 let editMode = false
 let editReplyMode = false
+
+const cancelBtn = document.getElementsByClassName('cancel-btn')[0]
+if(cancelBtn){
+    cancelBtn.addEventListener('click', function(){
+        const prtNode = cancelBtn.parentNode.parentNode.parentNode
+        prtNode.querySelector('[name=name]').value = ''
+        prtNode.querySelector('[name=imageUrl]').value = ''
+    })
+}
 const clearBtn = document.getElementsByClassName('clear-btn')[0]
 if (clearBtn) {
     clearBtn.addEventListener('click', function () {
@@ -44,9 +138,7 @@ if (deleteCommentbtns) {
             }
             try {
                 const res = await fetch(`http://localhost:3000/dashboard/posts/delete-comment/${commentId}`, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: headers,
                     method: 'DELETE'
                 })
 
@@ -78,9 +170,7 @@ if (deleteReplybtns) {
             }
             try {
                 const res = await fetch(`http://localhost:3000/dashboard/posts/delete-reply/${commentId}`, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: headers,
                     method: 'DELETE'
                 })
 
@@ -101,7 +191,6 @@ if (deleteReplybtns) {
     }
 }
 
-
 const close = document.getElementsByClassName('closebtn')[0]
 if (close) {
     close.addEventListener('click', function () {
@@ -121,9 +210,7 @@ for (let i = 0; i < postbtns.length; i++) {
         const post = { postId: postId }
         fetch('http://localhost:3000/dashboard/posts/delete-post', {
             method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             body: JSON.stringify(post)
         })
             .then(res => res.json())
@@ -139,13 +226,7 @@ for (let i = 0; i < postbtns.length; i++) {
             .catch(err => console.log(err))
     })
 }
-// const deleteBtnInPostDetailsPage = document.getElementsByClassName('delete-btn')[0]
-// if (deleteBtnInPostDetailsPage){
-//     deleteBtnInPostDetailsPage.addEventListener('click', function() {
-//         const btnContainer = deleteBtnInPostDetailsPage.parentNode
-//         const postId = btnContainer.querySelector('[name=postId]').value
-//     })
-// }
+
 const commentBtn = document.getElementsByClassName('comment-btn')[0]
 if (commentBtn) {
     const postId = commentBtn.parentNode.querySelector('[name=postId]').value
@@ -182,9 +263,7 @@ async function addOrReplyOrEditComment(...args) {
         if (editMode) {
             try {
                 const res = await fetch('http://localhost:3000/dashboard/posts/edit-comment', {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: headers,
                     method: 'POST',
                     body: JSON.stringify({
                         email,
@@ -225,9 +304,7 @@ async function addOrReplyOrEditComment(...args) {
             console.log(editReplyMode, 'editing reply')
             try {
                 const res = await fetch('http://localhost:3000/dashboard/posts/edit-reply', {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: headers,
                     method: 'POST',
                     body: JSON.stringify({
                         email,
@@ -263,9 +340,7 @@ async function addOrReplyOrEditComment(...args) {
         }
         try {
             const res = await fetch('http://localhost:3000/view-post/reply', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: headers,
                 method: 'POST',
                 body: JSON.stringify({
                     email,
@@ -302,9 +377,7 @@ async function addOrReplyOrEditComment(...args) {
 
     }
     return fetch('http://localhost:3000/view-post/add-comment', {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: headers,
         method: 'POST',
         body: JSON.stringify({
             email,
@@ -340,27 +413,6 @@ async function addOrReplyOrEditComment(...args) {
         })
 }
 
-function createReplyBox(id, name, body, date, email) {
-    const div = document.createElement('div')
-    div.classList.add('container')
-    div.innerHTML = `<div class = "row">
-    </div>
-    <div class="row">
-      <img src="img/header.jpg" class="col s2 circle" alt="reader-image">
-      <div class="col s3">
-          <p id = "name" class="col s12">${name}</p>
-          <p class="col blue-text s12" id= "email">${email}</p>
-      </div>  
-        <p class="col offset-s3 offset-m3 offset-l3 s4">${date}</p>
-    </div>
-    <div class="row">
-      <input type="hidden" name ="commentId" value="${id}"/>
-      <p class="col s12">${body}</p>
-    </div>
-    </div>
-    </div>`
-    return div
-}
 const editReplyBtn = document.getElementsByClassName('edit-reply-btn')
 if (editReplyBtn) {
     for (let i = 0; i < editReplyBtn.length; i++) {
@@ -462,6 +514,27 @@ function createCommentBox(id, name, body, date, email) {
         <p style="font-size: xx-small; cursor: pointer;" class="col s4 red-text delete-btn"><i class="material-icons left">delete</i>Delete</p>
     </div>
     <hr style="border: 0.1px solid #ccc; background-color: #ccc;" width="100%" />`
+    return div
+}
+function createReplyBox(id, name, body, date, email) {
+    const div = document.createElement('div')
+    div.classList.add('container')
+    div.innerHTML = `<div class = "row">
+    </div>
+    <div class="row">
+      <img src="img/header.jpg" class="col s2 circle" alt="reader-image">
+      <div class="col s3">
+          <p id = "name" class="col s12">${name}</p>
+          <p class="col blue-text s12" id= "email">${email}</p>
+      </div>  
+        <p class="col offset-s3 offset-m3 offset-l3 s4">${date}</p>
+    </div>
+    <div class="row">
+      <input type="hidden" name ="commentId" value="${id}"/>
+      <p class="col s12">${body}</p>
+    </div>
+    </div>
+    </div>`
     return div
 }
 

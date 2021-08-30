@@ -16,35 +16,43 @@
                 </div>
             <% } %>
             <% for( let index = 0; index < posts.length; index++ ) { %>
-                <article class="post white">
-                    <div class="post-image">
-                        <img src="<%= posts[index].imageUrl %> " alt="post image">
-                    </div>
-                    <div class="body">
-                        <div class="title">
-                            <p><%= posts[index].title %> </p>
+                <% if (posts[index].approved) { %>
+                    <article class="post white">
+                        <div class="post-image">
+                            <img src="<%= posts[index].imageUrl %>" alt="post image">
                         </div>
-                        
-                        <div class="detail">
-                            <p class="blogger">Author: <strong><%= posts[index].authorId == user.id ? 'Me' : posts[index].author %> </strong></p>
-                            <p class="date-time"><%= posts[index].date %></p>
-                        </div>
-                        <div class="content">
-                            <p class="truncate"><%= posts[index].body %> 
-                            <input type= "hidden" name="postId" value="<%= posts[index].id %>">
-                            <div class="row">
-                                <p class="col s6"><%= posts[index].category %> </p>
-                                <p class="col s3 black-text"><%= posts[index].likes %><i class="material-icons left red-text">favorite</i></p>
-                                <P class="col s3"><%= posts[index].noOfComments %>  <i class="material-icons left blue-text">comment</i></P>
+                        <div class="body">
+                            <div class="title">
+                                <p><%= posts[index].title %> </p>
                             </div>
-                            </p> <a href="/dashboard/posts/view-post/<%= posts[index].id %> " class="btn-small white-text btn-flat blue">Read more</a>
-                            <% if (posts[index].authorId == user.id) { %>
-                                <a href="/dashboard/posts/edit-post/<%= posts[index].id %>" class="btn-small btn-flat transparent blue-text">Edit Post</a>
-                                <button class="btn-small btn-flat transparent red-text postbtn">Delete Post</button>
-                            <% } %>
+                            
+                            <div class="detail">
+                                <p class="blogger">Author: <strong><%= posts[index].authorId == user.id ? 'Me' : posts[index].author %> </strong></p>
+                                <p class="date-time"><%= posts[index].date %></p>
+                            </div>
+                            <div class="content">
+                                <p class="truncate"><%= posts[index].body %> 
+                                <input type= "hidden" name="postId" value="<%= posts[index].id %>">
+                                <div class="row">
+                                    <p class="col s6"><%= posts[index].category %> </p>
+                                    <p class="col s3 black-text"><%= posts[index].likes %><i class="material-icons left red-text">favorite</i></p>
+                                    <P class="col s3"><%= posts[index].noOfComments %>  <i class="material-icons left blue-text">comment</i></P>
+                                </div>
+                                </p> <a href="/dashboard/posts/view-post/<%= posts[index].id %> " class="btn-small white-text btn-flat blue">Read more</a>
+                                <% if (posts[index].authorId == user.id) { %>
+                                    <a href="/dashboard/posts/edit-post/<%= posts[index].id %>" class="btn-small btn-flat transparent blue-text">Edit Post</a>
+                                    <button class="btn-small btn-flat transparent red-text postbtn">Delete Post</button>
+                                <% } %>
+                            </div>
+                        </div>
+                    </article>
+                <% } else { %>
+                    <div class="container white">
+                        <div class="row">
+                            <p class="col s12">Seems like no Post have beeen Approved by the admin yet. come back within the 24 hours. Thanks</p>
                         </div>
                     </div>
-                </article>
+                <% } %>
             <% } %>
         </div>       
     </div>

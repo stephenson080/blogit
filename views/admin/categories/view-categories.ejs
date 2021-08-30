@@ -1,0 +1,33 @@
+<%- include('../../include/head.ejs')  %>
+<link rel="Stylesheet" href="/css/dashboard.css" />
+</head>
+<body bgcolor="whitesmoke">
+    <%- include('../../include/admin-nav.ejs') %>
+        <div class="container">
+            <div class="container">
+               <div class="row">
+                 <% for( let index = 0; index < categories.length; index++ ) { %>
+                    <div class="col s12 m4">
+                        <div class="card">
+                            <div class="card-image">
+                              <img src="<%= categories[index].imageUrl %> ">
+                            </div>
+                            <div class="card-content">
+                              <p class="flow-text" style="font-size: large !important;"><%= categories[index].category %></p>
+                            </div>
+                            <div class="card-action">
+                              <a class="blue-text" href="/admin/categories/edit-category/<%= categories[index].id  %>">Edit <i class="material-icons left">edit</i></a>
+                            </div>
+                            <div class="card-action">
+                                <input name="categoryId" value="<%= categories[index].id %>" type="hidden"/>
+                                <a style="cursor: pointer;" class="red-text delete-cat"><i class="material-icons left">delete</i>Delete</a>
+                              </div>
+                          </div>
+                    </div>
+                 <% } %>
+               </div>
+            </div>
+        </div>
+
+<script src="js/adminScript.js"></script>
+<%- include('../../include/end.ejs') %> 

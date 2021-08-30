@@ -33,6 +33,7 @@ const homePageImages = [{
 ]
 exports.getIndexOrDashBoardPage = async (req, res, next, isAuthenticated, user) => {
     let fetchedUser = {}
+    const posts = await getAllPosts()
     const categories = await Category.findAll()
     const cat = []
     for (let item of categories) {
@@ -42,48 +43,58 @@ exports.getIndexOrDashBoardPage = async (req, res, next, isAuthenticated, user) 
         })
     }
     if (isAuthenticated) {
-        req.user = user
-        console.log(user)
         try {
             const author = await Author.findAll({
                 where: {
-                    email: user.email
+                    id: user.sub 
                 }
             })            
             if (author[0]) {
                 fetchedUser = {
+                    id: author[0].sub,
                     email: author[0].email,
                     username: author[0].username,
                     imageUrl: author[0].picture,
-                    password: author[0].password,
+                    role: author[0].role
                 }
-                return res.render('dashboard/index', {
-                    title: 'Dashboard',
+                if (fetchedUser.role == 'author') {
+                    return res.render('dashboard/index', {
+                        title: 'Dashboard',
+                        user: fetchedUser
+                    })
+                }
+                return res.render('admin/index', {
+                    title: 'Admin Dashboard',
                     user: fetchedUser
                 })
             }
             const newAuthor = await Author.create({
-                email: user.email,
+                id: user.sub,
+                email: user.email ? user.email : '',
                 imageUrl: user.picture,
                 username: user.nickname,
-                password: user.password
             })
             console.log('new Author', newAuthor)
             fetchedUser = {
                 email: newAuthor.dataValues.email,
                 username: newAuthor.dataValues.username,
-                imageUrl: newAuthor.dataValues.picture,
-                password: newAuthor.dataValues.password
+                imageUrl: newAuthor.dataValues.imageUrl,
+                role: newAuthor.dataValues.role
             }
-            return res.render('dashboard/index', {
-                title: 'Dashboard',
+            if (fetchedUser.role == 'author') {
+                return res.render('dashboard/index', {
+                    title: 'Dashboard',
+                    user: fetchedUser
+                })
+            }
+            return res.render('admin/index', {
+                title: 'Admin Dashboard',
                 user: fetchedUser
             })
         } catch (error) {
             next(error)
         }
     }
-    const posts = await getAllPosts()
     res.render('index', {
         title: "BLOGit Home",
         cat,
