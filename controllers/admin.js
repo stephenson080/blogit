@@ -2,18 +2,33 @@ const User = require('../utils/user')
 const Post = require('../utils/post')
 const Comment = require('../utils/comment')
 const Category = require('../utils/category')
+const {getHotPosts} = require('../utils/helpers')
 const { validationResult } = require('express-validator')
 // const Reply = require('../utils/reply')
 
-exports.getDashboard = (req, res) => {
-    res.render('admin/index', {
-        title: 'Admin dashboard',
-        user: req.user
-    })
+exports.getDashboard = async (req, res, next) => {
+    let hotPostsNoOfComments = []
+    let posts = []
+    try {
+        posts = await Post.getAllPosts()
+        const users = await User.getUsers()
+        const hotPosts = getHotPosts(posts)
+        res.render('admin/index', {
+            title: 'Admin dashboard',
+            user: req.user,
+            hotPosts,
+            posts,
+            users
+        })
+    } catch (error) {
+        next(error)
+    }
+
 }
 
 exports.getallUsersPage = async (req, res, next) => {
     try {
+        console.log(req.user)
         const users = await User.getUsers()
         res.render('admin/user/view-users', {
             title: 'All Users',
@@ -48,6 +63,7 @@ exports.approveUser = async (req, res, next) => {
 exports.getAllPostsPage = async (req, res, next) => {
     try {
         const posts = await Post.getAllPosts()
+        console.log(posts)
         res.render('admin/post/all-posts', {
             title: 'All Posts',
             posts,
@@ -128,7 +144,7 @@ exports.editCategory = async (req, res, next) => {
         }
         category = await Category.getCategoryById(req.body.categoryId)
         const updated = await category.updateCategory(req.body.name, req.file.filename)
-        if (updated){
+        if (updated) {
             return res.render('admin/categories/edit-category', {
                 title: 'Edit Category',
                 user,
@@ -256,5 +272,25 @@ exports.approvePost = async (req, res, next) => {
         })
     } catch (error) {
         next(error)
+    }
+}
+
+exports.deleteUser = async (req, res, next) => {
+    try {
+        const deleted = await User.deleteUser(req.params.userId)
+        if (deleted) {
+            return res.json({
+                message: 'Operation Successful'
+            })
+        }
+        return res.json({
+            message: 'Something went wrong'
+        })
+    } catch (error) {
+        const err = {
+            statusCode: 500,
+            message: error.message
+        }
+        next(err)
     }
 }

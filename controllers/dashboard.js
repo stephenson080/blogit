@@ -1,21 +1,24 @@
 // const Category = require('../models/category')
 const {validationResult} = require('express-validator')
-const Author = require('../models/blogger')
+const User = require('../utils/user')
+const Post = require('../utils/post')
+const {getHotPosts} = require('../utils/helpers')
 
 exports.getDashboard = async (req, res, next) => {
-    // const categories = await Category.findAll()
-    // const cat = []
-    // for (let item of categories) {
-    //     cat.push({
-    //         id: item.dataValues.id,
-    //         category: item.dataValues.name
-    //     })
-    // }
-    const user = req.user
-    res.render('dashboard/index', {
-        title: "Dashboard",
-        user
-    })
+    try {
+        const user = req.user
+        const posts = await Post.getAllPosts()
+        const hotPosts = getHotPosts(posts)
+        res.render('dashboard/index', {
+            title: "Dashboard",
+            user,
+            posts,
+            hotPosts
+        }) 
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
 exports.getProfilePage = async (req, res, next) => {
@@ -50,16 +53,20 @@ exports.changeProfileDetails = async (req, res, next) => {
                 errorDetails: [{msg: 'Please upload a profile pics'}]
             })
         }
-        await Author.update({
-            username: req.body.username,
-            email: req.body.email,
-            imageUrl: req.file.filename
-        }, {where: {id: req.user.id}})
+        const edited = await User.editUser(req.user.id, req.body.name, req.body.email, req.file.filename)
+        if (edited) {
+            return res.render('dashboard/profile', {
+                title: 'Profile',
+                user: req.user,
+                errorMessage: 'Operation Successful',
+                errorDetails: [{msg: "You have Successfully Change your Profile"}]
+            })
+        }
         return res.render('dashboard/profile', {
             title: 'Profile',
             user: req.user,
-            errorMessage: 'Operation Successful',
-            errorDetails: [{msg: "You have Successfully Change your Profile"}]
+            errorMessage: 'Somthing went wrong',
+            errorDetails: [{msg: "Please Try again"}]
         })
     } catch (error) {
         next(error)

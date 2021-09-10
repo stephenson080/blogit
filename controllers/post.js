@@ -1,8 +1,8 @@
-const Category = require('../models/category')
+const Category = require('../utils/category')
 const path = require('path')
-const Post = require('../models/post')
-const ReplyToComment = require('../models/replyToComment')
-const Comment = require('../models/comment')
+const Post = require('../utils/post')
+const Reply = require('../utils/reply')
+const Comment = require('../utils/comment')
 const { validationResult } = require('express-validator')
 const moment = require('moment')
 const { delefile, getPostById, getCommentsByPostId, getAllPosts, getCommentById, getReplyById } = require('../utils/helpers')
@@ -13,14 +13,8 @@ const { delefile, getPostById, getCommentsByPostId, getAllPosts, getCommentById,
 exports.getAddPostPage = async (req, res, next) => {
     const user = req.user
     try {
-        const categories = await Category.findAll()
-        const cat = []
-        for (let item of categories) {
-            cat.push({
-                id: item.dataValues.id,
-                category: item.dataValues.name
-            })
-        }
+        const cat = await Category.getAllCategories()
+
         res.render('dashboard/post/addposts', {
             title: 'Add Post',
             user,
@@ -35,14 +29,7 @@ exports.getAddPostPage = async (req, res, next) => {
 }
 
 exports.addPost = async (req, res, next) => {
-    const categories = await Category.findAll()
-    const cat = []
-    for (let item of categories) {
-        cat.push({
-            id: item.dataValues.id,
-            category: item.dataValues.name
-        })
-    }
+    const cat = await Category.getAllCategories()
     const user = req.user
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -69,16 +56,8 @@ exports.addPost = async (req, res, next) => {
         }
 
         const dateString = moment().utcOffset(60).format('hh:mm DD MMMM YYYY')
-        const post = await Post.create({
-            head_line: title,
-            body: postbody,
-            categoryId: posttype,
-            bloggerId: user.id,
-            likes: 0,
-            date_time: dateString,
-            imageUrl: req.file.filename
-        })
-        if (post) {
+        const newPost = await Post.addNewPost(title, req.user.id, postbody, dateString, req.file.filename, posttype)
+        if (newPost) {
             return res.render('dashboard/post/addposts', {
                 title: 'Add Post',
                 user,
@@ -90,7 +69,6 @@ exports.addPost = async (req, res, next) => {
         throw new Error('Something went wrong')
 
     } catch (error) {
-
         next(error)
     }
 
@@ -102,7 +80,7 @@ exports.getAllPostPage = async (req, res, next) => {
     const user = req.user
     let posts = []
     try {
-        posts = await getAllPosts()
+        posts = await Post.getAllPosts()
         res.render('dashboard/post/allposts', {
             title: 'All Post',
             user,
@@ -116,75 +94,46 @@ exports.getAllPostPage = async (req, res, next) => {
 exports.deletePost = async (req, res, next) => {
     const { postId } = req.body
     try {
-        const post = await Post.findByPk(postId)
-        const comments = await Comment.findAll({
-            where: {
-                postId: postId
-            }
-        })
-        if (post) {
-            for (let comment of comments) {
-                const replies = await ReplyToComment.findAll({
-                    where: {
-                        commentId: comment.dataValues.id
-                    }
-                })
-                if (replies.length >= 1){
-                    for (let reply of replies){
-                        // delefile(reply.dataValues.imageUrl)
-                        await reply.destroy()
-                    }
-                }
-                 delefile(comment.dataValues.imageUrl)//
-                await comment.destroy()
-            }
-            await post.destroy()
-            delefile(post.dataValues.imageUrl)
+        const deleted = await Post.deletePost(postId)
+        if (deleted) {
             return res.json({ message: 'Post Successfully Deleted' })
         }
         return res.json({ message: 'Something went wrong' })
     } catch (error) {
-        next(error)
+        const err = {
+            statusCode: 500,
+            message: error.message
+        }
+        next(err)
     }
 }
 
 exports.getEditPostPage = async (req, res, next) => {
     const postId = req.params.postId
-    const categories = await Category.findAll()
-    const cat = []
-    for (let item of categories) {
-        cat.push({
-            id: item.dataValues.id,
-            category: item.dataValues.name
+    try {
+        const cat = await Category.getAllCategories()
+        const user = req.user
+        const post = await Post.getPostById(postId)
+        return res.render(`dashboard/post/editpost`, {
+            title: 'Edit Post',
+            user,
+            post,
+            cat,
+            errorMessage: '',
+            errorDetails: []
         })
+    } catch (error) {
+        next(error)
     }
-    const user = req.user
-    const post = await getPostById(postId)
-    return res.render(`dashboard/post/editpost`, {
-        title: 'Edit Post',
-        user,
-        post,
-        cat,
-        errorMessage: '',
-        errorDetails: []
-    })
+
 }
 
 exports.editPost = async (req, res, next) => {
     const user = req.user
-    const categories = await Category.findAll()
-    const cat = []
-    const { title, posttype, postbody, postId } = req.body
-    const post = await getPostById(postId)
-
-
-    for (let item of categories) {
-        cat.push({
-            id: item.dataValues.id,
-            category: item.dataValues.name
-        })
-    }
     try {
+        const cat = await Category.getAllCategories()
+        const { title, posttype, postbody, postId } = req.body
+        const post = await Post.getPostById(postId)
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const error = new Error("Validation Failed")
@@ -221,32 +170,33 @@ exports.editPost = async (req, res, next) => {
             })
         }
         const dateString = moment().utcOffset(60).format('hh:mm DD MMMM YYYY')
-        const upPost = await Post.update({
-            title,
-            imageUrl: req.file.filename,
-            posttype,
-            postbody,
-            date_time: dateString
-        }, {
-            where: {
-                id: postId
-            }
-        })
+        const edited = await post.editPost(title, req.file.filename, postbody, posttype, dateString)
+        if(edited){
+            return res.render(`dashboard/post/editpost`, {
+                title: 'Edit Post',
+                user,
+                cat,
+                post,
+                errorMessage: 'Operation Successful',
+                errorDetails: [{ msg: "You have Successfully edited your post" }]
+            })
+        }
         return res.render(`dashboard/post/editpost`, {
-            title: 'Add Post',
+            title: 'Edit Post',
             user,
             cat,
             post,
-            errorMessage: 'Operation Successful',
-            errorDetails: [{ msg: "You have Successfully edited your post" }]
+            errorMessage: 'Something went wrong',
+            errorDetails: [{ msg: "Sorry Couldn't edit your post" }]
         })
+
     } catch (error) {
         next(error)
     }
 }
 
 exports.editComment = async (req, res, next) => {
-    const {name, body, email, commentId} = req.body
+    const { name, body, email, commentId } = req.body
     try {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
@@ -257,40 +207,32 @@ exports.editComment = async (req, res, next) => {
                 errorDetails: error.data
             })
         }
-        const comment = await getCommentById(commentId)
-        if (!comment.id) {
+        const comment = await Comment.getCommentById(commentId)
+        if (!comment) {
             throw new Error('Something went wrong')
         }
         const dateString = moment().utcOffset(60).format('hh:mm DD MMMM YYYY')
-        await Comment.update({
-            email,
-            name,
-            date_time: dateString,
-            body
-        },
-        {
-            where: {
-                id: commentId
-            }
-        })
-        const updatedComment = {
-            ...comment,
-            email: email,
-            name: name,
-            body: body,
-            date: dateString
+        const editedComment = await comment.editComment(name, email, body, dateString)
+        if (editedComment){
+            return res.json({
+                message: 'Operation Successful',
+                comment: editedComment
+            })
         }
         return res.json({
-            message: 'Operation Successful',
-            comment: updatedComment
+            message: 'Something went wrong'
         })
     } catch (error) {
-        next(error)
+        const err = {
+            statusCode: 500,
+            message: error.message
+        }
+        next(err)
     }
 }
 
 exports.editReply = async (req, res, next) => {
-    const {name, body, email, commentId} = req.body
+    const { name, body, email, commentId } = req.body
     try {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
@@ -301,88 +243,82 @@ exports.editReply = async (req, res, next) => {
                 errorDetails: error.data
             })
         }
-        const reply = await getReplyById(commentId)
+        const reply = await Reply.getReplyById(commentId)
         if (!reply.id) {
             throw new Error('No record Found')
         }
         const dateString = moment().utcOffset(60).format('hh:mm DD MMMM YYYY')
-        await ReplyToComment.update({
-            name,
-            email,
-            body,
-            date_time: dateString
-        }, {
-            where: {
-                id: commentId
-            }
-        })
-        const updateReply = {
-            ...reply,
-            email: email,
-            name: name,
-            body: body,
-            date: dateString
+        const editedReply = reply.editReply(name, email, dateString, body)
+        if (editedReply) {
+            return res.json({
+                message: 'Operation Successful',
+                reply: editedReply
+            })
         }
         res.json({
-            message: 'Operation Successful',
-            reply: updateReply
+            message: 'Something went wrong'
         })
     } catch (error) {
-        next(error)
+        const err = {
+            statusCode: 500,
+            message: error.message
+        }
+        next(err)
     }
 }
 
 exports.deleteReply = async (req, res, next) => {
-    const {commentId} = req.params
+    const { commentId } = req.params
     try {
-        const reply = await ReplyToComment.findByPk(commentId)
-        if (!reply) {
+        const reply = await Reply.findByPk(commentId)
+        if (!reply.name) {
             throw new Error('No record Found')
         }
         // delefile(reply.dataValues.imageUrl)
-        await reply.destroy()
+        const deleted = await reply.deleteReply()
+        if (deleted) {
+            return res.json({
+                message: 'Operation Successful'
+            })
+        }
         res.json({
-            message: 'Operation Successful'
+            message: 'Something went wrong'
         })
     } catch (error) {
-        next(error)
+        const err = {
+            statusCode: 500,
+            message: error.message
+        }
+        next(err)
     }
 }
 
 exports.deleteComment = async (req, res, next) => {
-    const {commentId} = req.params
+    const { commentId } = req.params
     try {
-        const comment = await Comment.findByPk(commentId)
-        if (!comment) {
-            throw new Error('No record Found')
+        const deleted = await Comment.deleteComment(commentId)
+        if (deleted) {
+            return res.json({
+                message: 'Operation Successful'
+            })
         }
-        
-        const replies = await ReplyToComment.findAll({
-            where: {
-                commentId: comment.dataValues.id
-            }
-        })
-        if (replies.length >= 1) {
-            for (let reply of replies) {
-                // delefile(reply.dataValues.imageUrl)
-                await reply.destroy()
-            }
-        }
-        // delefile(comment.dataValues.imageUrl)
-        await comment.destroy()
         res.json({
-            message: 'Operation Successful'
+            message: 'Something went wrong'
         })
     } catch (error) {
-        next(error)
+        const err = {
+            statusCode: 500,
+            message: error.message
+        }
+        next(err)
     }
 }
 
 exports.getPostDetailsPage = async (req, res, next) => {
     const user = req.user
     const postId = req.params.postId
-    const post = await getPostById(postId)
-    const { comments } = await getCommentsByPostId(postId)
+    const post = await Post.getPostById(postId)
+    const comments = await Comment.getAllCommentsByPostId(postId)
     res.render('dashboard/post/postdetails', {
         comments,
         title: 'View Post',
@@ -392,34 +328,28 @@ exports.getPostDetailsPage = async (req, res, next) => {
 }
 exports.getMyPostPage = async (req, res, next) => {
     const user = req.user
-    let posts = []
     try {
-        const fetedPosts = await Post.findAll({
-            where: {
-                bloggerId: req.user.id
-            }
-        })
-
-        for (let post of fetedPosts) {
-            const category = await Category.findByPk(post.dataValues.categoryId)
-            const { noOfComments } = await getCommentsByPostId(post.dataValues.id)
-            posts.push({
-                id: post.dataValues.id,
-                title: post.dataValues.head_line,
-                category: category.dataValues.name,
-                likes: post.dataValues.likes,
-                date_time: post.dataValues.date_time,
-                body: post.dataValues.body,
-                author: 'Me',
-                imageUrl: post.dataValues.imageUrl,
-                noOfComments: noOfComments
-            })
-        }
-
+        const posts = await Post.getPostsByUserId(user.id)
         res.render('dashboard/post/myposts', {
             title: 'My Posts',
             user,
             posts
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+exports.getPostsByCategory = async (req, res, next) => {
+    try {
+        const posts = await Post.getPostsByCategory(req.params.categoryId)
+        console.log(posts, 'ekjdsdkjdl')
+        const category = await Category.getCategoryById(req.params.categoryId)
+        const cat = await Category.getAllCategories()
+        res.render('allposts-by-cat', {
+            title: `${category.category} Posts`,
+            posts,
+            cat,
+            user: req.user,
         })
     } catch (error) {
         next(error)

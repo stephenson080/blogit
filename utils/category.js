@@ -16,6 +16,7 @@ class Category {
                 if (category) {
                     resolve(category)
                 }
+                resolve(category)
             } catch (error) {
                 reject(error)
             }
@@ -59,7 +60,9 @@ class Category {
             try {
                 const fetchedCat = await CategoryModelDB.findByPk(this.id)
                 if (fetchedCat) {
-                    delefile(fetchedCat.dataValues.imageUrl)
+                    if (fetchedCat.dataValues.imageUrl) {
+                        delefile(fetchedCat.dataValues.imageUrl)
+                    }
                     await fetchedCat.update({
                         name: name,
                         imageUrl: imageUrl
@@ -79,7 +82,9 @@ class Category {
                 const fetchedCat = await CategoryModelDB.findByPk(this.id)
                 if (fetchedCat) {
                     await fetchedCat.destroy()
-                    delefile(fetchedCat.dataValues.imageUrl)
+                    if (fetchedCat.dataValues.imageUrl){
+                        delefile(fetchedCat.dataValues.imageUrl)
+                    }
                     resolve(true)
                 }
                 resolve(false)

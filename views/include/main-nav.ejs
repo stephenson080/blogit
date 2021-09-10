@@ -21,21 +21,6 @@
       <a class="btn login" href="#login-page">Login</a>
     </div>
 </div> -->
-<% if (user) { %>
-  <div class="navbar-fixed">
-    <nav class="white">
-      <div class="nav-wrapper tranparent">
-        <a href="#!" class="brand-logo blue-text text-darken-3">BLOGit</a>
-        <a href="#" data-target="mobile-menu" class="sidenav-trigger"
-          ><i class="material-icons">menu</i></a
-        >
-        <ul class="right hide-on-small-only">
-          <li><a href="/logout"><span class="material-icons">logout</span>Logout</a></li>
-        </ul>
-      </div>
-    </nav>
-  </div>
-<% } else {  %>
   <div class="navbar-fixed">
     <nav class="white">
       <div class="nav-wrapper tranparent container">
@@ -72,7 +57,7 @@
     <li><a href="#">About</a></li>
     <li><a class="btn-small blue waves-effect waves-light" href="/login">Login</a></li>
   </ul>
-<% } %> 
+   
   <ul id="post-categories2" class="dropdown-content #64b5f6 blue lighten-2">
     <% for( let i = 0; i < cat.length; i++ ) { %>
     <li><a href="#!" class="white-text"><%= cat[i].category%></a></li>

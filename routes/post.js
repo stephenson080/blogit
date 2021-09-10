@@ -17,7 +17,8 @@ router.post('/edit-post', [
     .withMessage('Post Body is too short must be 40 Characters least')
 ], editPost)
 router.get('/my-posts', getMyPostPage)
-router.post('/add-post', [body('title').trim().isLength({ min: 1 }).withMessage('Please the Post Title Field is needed'),
+router.post('/add-post', [body('title').trim().isLength({ min: 1 }).withMessage('Please the Post Title Field is needed')
+.isLength({max: 45}).withMessage('Please the post title is too long'),
 check('posttype').isLength({ min: 1 }).withMessage('Please the Post type is needed'),
 body('postbody').isLength({ min: 40 })
     .withMessage('Post Body is too short must be 40 Characters least')

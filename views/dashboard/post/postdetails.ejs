@@ -8,35 +8,33 @@
         <div class="container">
             <div class="white">
                 <h4><%= post.title %> </h4>
-            <p>Category: <strong class="blue-text"><%= post.category %> </strong></p>
-            <div class="post-detail-image">
-                <img src="<%= post.imageUrl %>" alt="post-image" class="image-post" >
-            </div>
-            <div class="post-detail-user-date">
-                <div class="post-detail-user">
-                    <div class="user-image">
-                        <img src="img/header.jpg" alt="" class="circle">
-                    </div>
-                    <p class="flow-text blue-text"><%= post.author %> </p>
+                <p>Category: <strong class="blue-text"><%= post.category %> </strong></p>
+                <div class="post-detail-image">
+                    <img src="<%= post.imageUrl %>" alt="post-image" class="image-post" >
                 </div>
-                <p class="grey-text"><%= post.date %> </p>
-            </div>
-            <div class="row" >
-                <div class="col s12">
-                    <p><%= post.body %> </p>
-                </div>
-            </div>
-            <% if (user.id == post.authorId) { %>
-                <div class="row">
-                    <div class="col s5 m3 l3 offset-s4 offset-m6 offset-l6">
-                        <a href="/dashboard/posts/edit-post/<%= post.id %>" class="btn-flat transparent blue-text text-darken-4">Edit Post</a>
+                <div class="post-detail-user-date">
+                    <div class="post-detail-user">
+                        <div class="user-image">
+                            <img src="img/header.jpg" alt="" class="circle">
+                        </div>
+                        <p class="flow-text blue-text"><%= post.author %> </p>
                     </div>
-                    <div class="col s3">
-                        <input type= "hidden" name="postId" value="<%= post.id %>">
-                        <button class="btn red post-btn">Delete Post</button>
+                    <p class="grey-text"><%= post.date %> </p>
+                </div>
+                <div class="row" >
+                    <div class="col s12">
+                        <p><%= post.body %> </p>
                     </div>
                 </div>
-            <% } %>
+                <% if (user.id == post.authorId) { %>
+                    <div class="row">
+                            <a href="/dashboard/posts/edit-post/<%= post.id %>" class="btn-flat transparent blue-text col s5 offset-s1 offset-m4 offset-l6 text-darken-4">Edit Post</a>
+                        <div class="col s3">
+                            <input type= "hidden" name="postId" value="<%= post.id %>">
+                            <button class="btn red post-btn">Delete Post</button>
+                        </div>
+                    </div>
+                <% } %>
             
             </div>
             
@@ -56,10 +54,10 @@
                         <div class="row">
                             <img src="img/header.jpg" class="col s2 circle" alt="" srcset="">
                             <div class="col s3">
-                                <p id = "name" style="font-size: x-small;" class="col s12"><%= comments[index].name %></p>
-                                <p class="col blue-text s12" style="font-size: x-small;" id= "email"><%= comments[index].email %></p>
+                                <p id = "name" class="col s12"><%= comments[index].name %></p>
+                                <p class="col blue-text s12" id= "email"><%= comments[index].email %></p>
                             </div>                        
-                            <p class="col offset-s3 offset-m3 offset-l3 s4" style="font-size: x-small;"><%= comments[index].date %></p>
+                            <p class="col offset-s3 offset-m3 offset-l3 s4 grey-text" ><%= comments[index].date %></p>
                         </div>
                         <div class="row container">
                             <p id = "body" class="col s12"><%= comments[index].body %></p>
@@ -74,17 +72,18 @@
                         <% } %>
                     </div>
                     <% if (comments[index].replies.length >= 1) { %>
-                        <p class="container replies">Replies</p>
+                        <p class="container replies blue-text text-darken-3">Replies</p>
+                        <br>
                         <% for( let j =0; j < comments[index].replies.length; j++ ) { %>
                             <div class="container <%= comments[index].replies[j].id  %>">
                                 <div class = "row">
                                     <div class="row">
                                         <img src="img/header.jpg" class="col s2 circle" alt="reader-image">
                                         <div class="col s3">
-                                            <p id = "name" class="col s12" style="font-size: xx-small;"><%= comments[index].replies[j].name %></p>
-                                            <p class="col blue-text s12" id= "email" style="font-size: xx-small;"><%= comments[index].replies[j].email %></p>
+                                            <p id = "name" class="col s12" ><%= comments[index].replies[j].name %></p>
+                                            <p class="col blue-text s12" id= "email" ><%= comments[index].replies[j].email %></p>
                                         </div>  
-                                        <p class="col offset-s3 offset-m3 offset-l3 s4" style="font-size: xx-small;"><%= comments[index].replies[j].date %></p>
+                                        <p class="col offset-s3 offset-m3 offset-l3 s4 grey-text"><%= comments[index].replies[j].date %></p>
                                     </div>
                                     <div class="row container">
                                         <p id = "body" class="col s12" ><%= comments[index].replies[j].body %></p>

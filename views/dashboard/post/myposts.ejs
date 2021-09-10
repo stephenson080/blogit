@@ -10,7 +10,7 @@
             <% if (posts.length == 0) { %>
                 <div class="container white">
                     <div class="row">
-                        <p class="col s12 flow-text">Seems like no Post have beeen uplaod. Click the below below button to add a post</p>
+                        <p class="col s12 flow-text">Seems like no Post have been uploaded. Click the below below button to add a post</p>
                         <a href="/dashboard/posts/add-post" class="col s4 btn-small blue white-text">Add a Post</a>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                         
                         <div class="detail">
                             <p class="blogger">Author: <strong><%= posts[index].author %> </strong></p>
-                            <p class="date-time"><%= posts[index].date_time %></p>
+                            <p class="date-time grey-text"><%= posts[index].date %></p>
                         </div>
                         <div class="content">
                             <p class="truncate"><%= posts[index].body %></p>

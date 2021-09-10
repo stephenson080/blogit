@@ -11,7 +11,7 @@ const ReplyToComment = sequelize.define('reply-to-comment', {
         allowNull: false
     },
     date_time : {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING,
         allowNull: false
     },
     body: DataTypes.TEXT,

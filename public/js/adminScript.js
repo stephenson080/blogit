@@ -2,6 +2,33 @@ const headers = {
         'Content-Type': 'application/json'
 }
 const baseUrl = 'http://localhost:3000'
+
+const deleteUserbtn = document.getElementsByClassName('delete-user')
+if (deleteUserbtn) {
+    for (let i = 0; i < deleteUserbtn.length; i++) {
+        deleteUserbtn[i].addEventListener('click', async function() {
+            try {
+                const userId = deleteUserbtn[i].parentNode.querySelector('[name=userId]').value
+                // console.log(userId) 
+                const res = await fetch(`${baseUrl}/admin/users/delete-user/${userId}`, {
+                    headers: headers,
+                    method: 'DELETE'
+                })
+                if (!res.ok){
+                    throw new Error('Somthing went wrong')
+                }
+                const resData = await res.json()
+                if (resData.message == 'Operation Successful') {
+                    alert(resData.message)
+                    return
+                }
+                alert(resData.message)
+            } catch (error) {
+                alert(error.message)
+            }
+        }) 
+    }
+}
 const approveUserbtn = document.getElementsByClassName('approve-user')
 if (approveUserbtn) {
     for (let i =0; i< approveUserbtn.length; i++) {
@@ -97,6 +124,7 @@ if(cancelBtn){
 const clearBtn = document.getElementsByClassName('clear-btn')[0]
 if (clearBtn) {
     clearBtn.addEventListener('click', function () {
+
         document.getElementById('add-comment-btn').innerHTML = 'Comment'
         document.getElementById('comment-header').innerHTML = 'Add Comment'
         const addCommentBox = document.getElementsByClassName('add-comment')[0]
@@ -376,6 +404,7 @@ async function addOrReplyOrEditComment(...args) {
         }
 
     }
+    console.log(email, body, postId, name)
     return fetch('http://localhost:3000/view-post/add-comment', {
         headers: headers,
         method: 'POST',

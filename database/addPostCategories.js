@@ -1,18 +1,23 @@
 const Category = require('../models/category')
 const categories = [{
-    name: "Technology"
+    name: "Technology",
+    imageUrl: 'tech.jpg'
 },
 {
-    name: 'Sport'
+    name: 'Sport',
+    imageUrl: 'sport.jpg'
 },
 {
-    name: 'Travel'
+    name: 'Travel',
+    imageUrl: 'travel.jpg'
 },
 {
-    name: 'Photography'
+    name: 'Photography',
+    imageUrl: 'photo'
 },
 {
-    name: 'Music'
+    name: 'Music',
+    imageUrl: 'music.jpg'
 },
 {
     name: 'Culture'
@@ -30,16 +35,19 @@ const categories = [{
     name: 'Product Review'
 },
 {
-    name: 'Programming'
+    name: 'Programming',
+    imageUrl: 'program.jpg'
 },
 {
-    name: 'Science'
+    name: 'Science',
+    imageUrl: 'science.jpeg'
 },
 ]
 
 for (let cat of categories) {
     Category.create({
-        name: cat.name
+        name: cat.name,
+        imageUrl: cat.imageUrl
     })
     .then()
     .catch(console.log)

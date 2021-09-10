@@ -79,8 +79,9 @@ main {
 
 /* Caption text */
 .text {
-  color: #f2f2f2;
-  font-size: 15px;
+  color: white;
+  font-weight: bolder;
+  font-size: x-large;
   padding: 8px 12px;
   position: absolute;
   bottom: 8px;

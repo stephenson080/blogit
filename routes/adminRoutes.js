@@ -2,7 +2,9 @@ const express = require('express')
 const router = express.Router()
 const { body, check } = require('express-validator')
 const {getAddCategoryPage, getAllPostsPage, getDashboard, getallUsersPage, getReviewPostPage, approvePost, 
-    addNewCategory, getAllCategoriesPage, getEditCategoryPage, editCategory, deleteCategory, approveUser} = require('../controllers/admin')
+    addNewCategory, getAllCategoriesPage, getEditCategoryPage, editCategory, deleteCategory, approveUser,
+    deleteUser
+} = require('../controllers/admin')
 
 router.get('/posts/review-post/:postId', getReviewPostPage)
 router.post('/posts/approve-post/:postId', approvePost)
@@ -16,6 +18,7 @@ router.post('/categories/edit-category', [
 router.delete('/categories/delete-category/:categoryId', deleteCategory)
 router.get('/dashboard', getDashboard )
 router.get('/users/view-users', getallUsersPage)
+router.delete('/users/delete-user/:userId', deleteUser)
 router.post('/users/approve-user/:userId', approveUser)
 router.get('/posts/all-posts', getAllPostsPage)
 

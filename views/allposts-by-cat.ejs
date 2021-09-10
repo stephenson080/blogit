@@ -1,17 +1,16 @@
-<%- include('../../include/head.ejs')  %>
-<link rel="Stylesheet" href="/css/dashboard.css" />
+<%- include('./include/head.ejs')  %>
+<link rel="stylesheet" href="/css/form.css"/>
 <link rel = "stylesheet" href="/css/post.css"/>
 </head>
 <body bgcolor="whitesmoke">
-    <%- include('../../include/nav.ejs') %>
+    <%- include("./include/main-nav.ejs")  %>
     <div class="container">
         <div class="container">
-            <h5>All Posts</h5>
+            <h4 class="blue-text text-darken-3"><%= title %></h4> 
             <% if (posts.length == 0) { %>
                 <div class="container white">
                     <div class="row">
-                        <p class="col s12">Seems like no Post have beeen uplaod.Click the below below button to add a post</p>
-                        <a href="/dashboard/posts/add-post" class="col s6 btn-small blue white-text">Add a Post</a>
+                        <h4 class="col s12">Oohs no Post for this Category Found!!! 000 </h4>
                     </div>
                 </div>
             <% } %>
@@ -19,47 +18,42 @@
                 <% if (posts[index].approved) { %>
                     <article class="post white">
                         <div class="post-image">
-                            <img src="<%= posts[index].imageUrl %>" alt="post image">
+                            <img src="<%= posts[index].imageUrl %> " alt="post image">
                         </div>
                         <div class="body">
                             <div class="title">
                                 <p><%= posts[index].title %> </p>
                             </div>
-                            
+                        
                             <div class="detail">
-                                <p class="blogger">Author: <strong><%= posts[index].authorId == user.id ? 'Me' : posts[index].author %> </strong></p>
+                                <p class="blogger">Author: <strong><%= posts[index].author %> </strong></p>
                                 <p class="date-time"><%= posts[index].date %></p>
                             </div>
                             <div class="content">
-                                <p class="truncate"><%= posts[index].body %> </p>
+                                <p class="truncate"><%= posts[index].body %> 
                                 <input type= "hidden" name="postId" value="<%= posts[index].id %>">
+                                </p> <a href="/view-post/<%= posts[index].id %> " class="btn-small white-text btn-flat blue">Read more</a>
                                 <div class="row">
                                     <p class="col s6"><%= posts[index].category %> </p>
                                     <p class="col s3 black-text"><%= posts[index].likes %><i class="material-icons left red-text">favorite</i></p>
-                                    <P class="col s3"><%= posts[index].noOfComments %>  <i class="material-icons left blue-text">comment</i></P>
+                                    <P class="col s3 blact-text"><%= posts[index].noOfComments %>  <i class="material-icons left blue-text">comment</i></P>
                                 </div>
-                                <a href="/dashboard/posts/view-post/<%= posts[index].id %> " class="btn-small white-text btn-flat blue">Read more</a>
-                                <% if (posts[index].authorId == user.id) { %>
-                                    <a href="/dashboard/posts/edit-post/<%= posts[index].id %>" class="btn-small btn-flat transparent blue-text">Edit Post</a>
-                                    <button class="btn-small btn-flat transparent red-text postbtn">Delete Post</button>
-                                <% } %>
                             </div>
                         </div>
                     </article>
                 <% } else { %>
-                    <% if (posts.length == 1) {%> 
+                    <% if (posts.length >= 1) {%> 
                     <div class="container white">
                         <div class="row">
-                            <p class="col s12">Seems like no Post have beeen Approved by the admin yet. come back within the 24 hours. Thanks</p>
+                            <h5 class="col s12">Oohs no Post for this Category Found!!! </h5>
                         </div>
                     </div>
                     <% } %>
                     <% continue %>
                 <% } %>
             <% } %>
-        </div>       
+        </div>
     </div>
-    
 
-    <script src="/js/dashboardScript.js"></script>
-<%- include('../../include/end.ejs') %> 
+    <script src="/js/script.js"></script>
+<%- include('./include/end.ejs') %> 

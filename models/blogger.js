@@ -15,14 +15,12 @@ const Blogger = sequelize.define('blogger', {
     username: DataTypes.STRING,
     imageUrl: DataTypes.TEXT,
     // password: DataTypes.STRING,
-    role: {
-        type: DataTypes.STRING,
-        defaultValue: 'author'
-    },
+    role: DataTypes.STRING,
     approved: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
-    }
+    },
+    description: DataTypes.STRING
 })
 
 module.exports = Blogger

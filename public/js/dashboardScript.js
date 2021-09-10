@@ -92,6 +92,7 @@ if (deleteReplybtns) {
                 if (resData.message == 'Operation Successful') {
                     alert('Operation Successful. You have deleted Your Comment')
                     location.reload()
+                    return
                 }
 
             } catch (error) {
@@ -484,3 +485,4 @@ document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
 });
+

@@ -12,7 +12,7 @@ const PostModel = sequelize.define('post', {
         allowNull: false
     },
     date_time : {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING,
         allowNull: false
     },
     head_line: {

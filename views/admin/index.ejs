@@ -5,10 +5,56 @@
     <%- include('../include/admin-nav.ejs') %>
     <div class="container">
         <div class="container">
-            <h1>Logggin</h1>
-            <div class="white">
-                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+            <h5 class="blue-text text-darken-3">Good Day Admin,</h5>
+            <div class="row">
+                <div class="col white s12 m4 offset-m2 offset-l2 l4 z-depth-2">
+                    <h6>Number of Posts</h6>
+                    <h3><%= posts.length %></h3>
+                    <hr style="border-bottom: 2px solid blue;"/>
+                </div>
+                <div class="col white s12 offset-m2 offset-l2 m4 l4 z-depth-2">
+                    <h6>Number of Users</h6>
+                    <h3><%= users.length %> </h3>
+                    <hr style="border-bottom: 2px solid green;"/>
+                </div>
             </div>
+            <h5>Hot Posts</h5>
+            <% if (hotPosts.length == 0) { %>
+                <div class="container white">
+                    <div class="row">
+                        <p class="col s12">Seems like no Post is Trending now</p>
+                    </div>
+                </div>
+            <% } else {%>
+            <% for( let index = 0; index < hotPosts.length; index++ ) { %>
+                <article class="post white">
+                    <div class="post-image">
+                        <img src="<%= hotPosts[index].imageUrl %> " alt="post image">
+                    </div>
+                    <div class="body">
+                        <div class="title">
+                            <p><%= hotPosts[index].title %> </p>
+                        </div>
+                        
+                        <div class="detail">
+                            <p class="blogger">Author: <strong><%= hotPosts[index].author %></strong></p>
+                            <p class="date-time"><%= hotPosts[index].date %></p>
+                        </div>
+                        <div class="content">
+                            <p class="truncate"><%= hotPosts[index].body %> </p>
+                            <input type= "hidden" name="postId" value="<%= hotPosts[index].id %>">
+                            <div class="row">
+                                <p class="col s6"><%= hotPosts[index].category %> </p>
+                                <p class="col s3 black-text"><%= hotPosts[index].likes %><i class="material-icons left red-text">favorite</i></p>
+                                <P class="col s3"><%= hotPosts[index].noOfComments %>  <i class="material-icons left blue-text">comment</i></P>
+                            </div>
+                            <a href="/admin/posts/review-post/<%= hotPosts[index].id %> " class="btn-small white-text btn-flat blue">Review Post</a>
+                            <button class="btn-small btn-flat transparent red-text postbtn">Delete Post</button>
+                        </div>
+                    </div>
+                </article>
+            <% } %>
+            <% } %>
         </div>
         
     </div>

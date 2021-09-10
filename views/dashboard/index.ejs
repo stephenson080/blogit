@@ -5,12 +5,51 @@
     <%- include('../include/nav.ejs') %>
     <div class="container">
         <div class="container">
-            <h1>Logggin</h1>
-            <div class="white">
-                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
-        </div>
-        
+            <h4 class="blue-text text-darken-3">Hello <%= user.username %>, Nice having you back. </h4>
+            <h5>Hot Posts</h5>
+            <% if (hotPosts.length == 0) { %>
+                <div class="container white">
+                    <div class="row">
+                        <p class="col s12">Seems like no Post is Trending now</p>
+                    </div>
+                </div>
+            <% } else {%>
+            <% for( let index = 0; index < hotPosts.length; index++ ) { %>
+                <article class="post white">
+                    <div class="post-image">
+                        <img src="<%= hotPosts[index].imageUrl %> " alt="post image">
+                    </div>
+                    <div class="body">
+                        <div class="title">
+                            <p><%= hotPosts[index].title %> </p>
+                        </div>
+                        
+                        <div class="detail">
+                            <p class="blogger">Author: <strong>
+                                <%= hotPosts[index].authorId == user.id ? 'Me' : hotPosts[index].author %>
+                                </strong>
+                            </p>
+                            <p class="date-time"><%= hotPosts[index].date %></p>
+                        </div>
+                        <div class="content">
+                            <p class="truncate"><%= hotPosts[index].body %> </p>
+                            <input type= "hidden" name="postId" value="<%= hotPosts[index].id %>">
+                            <div class="row">
+                                <p class="col s6"><%= hotPosts[index].category %> </p>
+                                <p class="col s3 black-text"><%= hotPosts[index].likes %><i class="material-icons left red-text">favorite</i></p>
+                                <P class="col s3"><%= hotPosts[index].noOfComments %>  <i class="material-icons left blue-text">comment</i></P>
+                            </div>
+                            <a href="/dashboard/posts/view-post/<%= hotPosts[index].id %> " class="btn-small white-text btn-flat blue">Read more</a>
+                            <% if (hotPosts[index].authorId == user.id) { %>
+                                <a href="/dashboard/posts/edit-post/<%= hotPosts[index].id %>" class="btn-small btn-flat transparent blue-text">Edit Post</a>
+                                <button class="btn-small btn-flat transparent red-text postbtn">Delete Post</button>
+                            <% } %>
+                        </div>
+                    </div>
+                </article>
+            <% } %>
+            <% } %>
+        </div>        
     </div>
     
 

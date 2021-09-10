@@ -157,8 +157,7 @@ function createReplyBox(id, name, body, date, email) {
   <div class="row">
     <input type="hidden" value="${id}"/>
     <p class="col s12">${body}</p>
-  </div>
-  <hr style="border-bottom: 0.1px solid blue; background-color: transparent;" width="100%" />`
+  </div>`
   return div
 }
 
@@ -204,23 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
 var slideIndex = 0;
 showSlides();
 
-function showSlides() {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  if (slides) {
-    for (i = 0; i < slides.length; i++) {
-      if (slides[i].style) {
-        slides[i].style.display = "none";
-      }
 
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) { slideIndex = 1 }
-    slides[slideIndex - 1].style.display = "block";
-    setTimeout(showSlides, 4000);
-  }
-  // Change image every 2 seconds
-}
 
 document.addEventListener('DOMContentLoaded', function() {
   const options = {
@@ -230,3 +213,35 @@ document.addEventListener('DOMContentLoaded', function() {
   var instances = M.Carousel.init(elems, options);
 });
 
+// function showSlides() {
+//   var i;
+//   var slides = document.getElementsByClassName("mySlides");
+//   if (slides) {
+//     for (i = 0; i < slides.length; i++) {
+//       if (slides[i].style) {
+//         slides[i].style.display = "none";
+//       }
+
+//     }
+//     slideIndex++;
+//     if (slideIndex > slides.length) { slideIndex = 1 }
+//     slides[slideIndex - 1].style.display = "block";
+//     setTimeout(showSlides, 4000);
+//   }
+//   // Change image every 2 seconds
+// }
+
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}
+  slides[slideIndex-1].style.display = "block";
+  setTimeout(showSlides, 4000); // Change image every 2 seconds
+}

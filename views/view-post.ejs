@@ -42,10 +42,10 @@
                         <div class="row">
                             <img src="img/header.jpg" class="col s2 circle" alt="" srcset="">
                             <div class="col s3">
-                                <p id = "name" style="font-size: xx-small;" class="col s12"><%= comments[index].name %></p>
-                                <p class="col blue-text s12" style="font-size: xx-small;" id= "email"><%= comments[index].email %></p>
+                                <p id = "name" class="col s12"><%= comments[index].name %></p>
+                                <p class="col blue-text s12" id= "email"><%= comments[index].email %></p>
                             </div>                        
-                            <p class="col offset-s3 offset-m3 offset-l3 s4" style="font-size: xx-small;"><%= comments[index].date %></p>
+                            <p class="col offset-s3 offset-m3 offset-l3 s4"><%= comments[index].date %></p>
                         </div>
                         <div class="row container">
                             <input name= "commentId" type="hidden" value="<%= comments[index].id %>"/>
@@ -56,17 +56,18 @@
                         </div>
                     </div>
                     <% if (comments[index].replies.length >= 1) { %>
-                        <p>Replies</p>
+                        <p class="blue-text text-darken-3">Replies</p>
+                        <br>
                         <% for( let j =0; j < comments[index].replies.length; j++ ) { %>
                             <div>
                                 <div class = "row">
                                     <div class="row">
                                         <img src="img/header.jpg" class="col s2 circle" alt="reader-image">
                                         <div class="col s3">
-                                            <p id = "name" class="col s12" style="font-size: xx-small;"><%= comments[index].replies[j].name %></p>
-                                            <p class="col blue-text s12" id= "email" style="font-size: xx-small;"><%= comments[index].replies[j].email %></p>
+                                            <p id = "name" class="col s12"><%= comments[index].replies[j].name %></p>
+                                            <p class="col blue-text s12" id= "email"><%= comments[index].replies[j].email %></p>
                                         </div>  
-                                        <p class="col offset-s3 offset-m3 offset-l3 s4" style="font-size: xx-small;"><%= comments[index].replies[j].date %></p>
+                                        <p class="col offset-s3 offset-m3 offset-l3 s4"><%= comments[index].replies[j].date %></p>
                                     </div>
                                     <div class="row container">
                                         <input type="hidden" value="<%= comments[index].replies[j].id %>"/>
@@ -83,7 +84,7 @@
     </div>
 
     <div class="container">
-        <h6 class="comment-header">Add Comment</h6>
+        <h6 id="comment-header">Add Comment</h6>
         <div class="container">
             <div class="white add-comment">
                 <div class="row">
