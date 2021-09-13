@@ -4,7 +4,7 @@ const sequelize = new Sequelize("dc2lsfh782hm3f", "ucomddhlcdjqxh", "9496a84d6ca
     dialect: "postgres",
     host: "ec2-52-45-238-24.compute-1.amazonaws.com",
     port: "5432",
-    ssl: true
+    ssl: false
 })
 // const {Sequelize} = require("sequelize")
 
