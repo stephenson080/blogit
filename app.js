@@ -161,7 +161,7 @@ dbConnnection
     // .sync({force: true})
     .sync()
     .then(async res => {
-        app.listen(PORT, function () {
+        app.listen(PORT || 3000, function () {
             console.log(`server running on ${PORT}`)
         })
     })
