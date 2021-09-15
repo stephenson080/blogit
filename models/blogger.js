@@ -1,6 +1,7 @@
-const sequelize = require('../database/dbConnection')
+const {connectDb} = require('../database/dbConnection')
 const {DataTypes} = require('sequelize');
 
+const sequelize = connectDb()
 
 const Blogger = sequelize.define('blogger', {
     id: {

@@ -1,7 +1,9 @@
-const sequelize = require('../database/dbConnection')
+const {connectDb} = require('../database/dbConnection')
 const {DataTypes} = require('sequelize');
 
 const Comment = require('./comment')
+
+const sequelize = connectDb()
 
 const ReplyToComment = sequelize.define('reply-to-comment', {
     id: {

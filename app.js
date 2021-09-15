@@ -59,7 +59,8 @@ const auth0Config = {
     issuerBaseURL: process.env.ISSUER_BASEURL
 };
 
-const dbConnnection = require('./database/dbConnection')
+const {connectDb} = require('./database/dbConnection')
+const dbConnection = connectDb()
 const PORT = process.env.PORT
 
 app.use(helmet())
@@ -156,7 +157,7 @@ app.use(async (error, req, res, next) => {
 app.use(get404Page)
 
 // apps entry point
-dbConnnection
+dbConnection
     // .sync({force: true})
     .sync()
     .then(async res => {

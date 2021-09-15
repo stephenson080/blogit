@@ -25,6 +25,7 @@ exports.getIndexOrDashBoardPage = async (req, res, next, isAuthenticated, user) 
     const users = await User.getUsers()
     const cat = await Category.getAllCategories()
     const hotPosts = getHotPosts(posts)
+    console.log(posts, hotPosts)
     if (isAuthenticated) {
         try {
             const fetchedUser = await User.getUserById(user.sub)

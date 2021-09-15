@@ -1,8 +1,10 @@
-const sequelize = require('../database/dbConnection')
+const {connectDb} = require('../database/dbConnection')
 const {DataTypes} = require('sequelize');
 
 const Category = require('./category')
 const Blogger = require('./blogger')
+
+const sequelize = connectDb()
 
 const PostModel = sequelize.define('post', {
     id: {
