@@ -159,8 +159,8 @@ app.use(get404Page)
 
 // apps entry point
 dbConnection
-    .sync({force: true})
-    // .sync()
+    // .sync({force: true})
+    .sync()
     .then(async res => {
         app.listen(PORT || 3000, function () {
             console.log(`server running on ${PORT}`)
