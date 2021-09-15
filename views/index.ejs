@@ -15,8 +15,20 @@
             </div>
             <a href="/login" class="btn-large waves-effect waves-light blue blue-darken-3 white-text ">Join Blogit ></a>
         </div>
-
-        <h5 style="padding: 10px;">Trending Posts</h5>
+        <div class="container">
+          <h5 style="padding: 10px;">Trending Posts</h5>
+        </div>
+        <% if (hotPosts.length) { %>
+          <div class="slideshow-container">
+            <% for( let index = 0; index < homePageImages.length; index++ ) { %>
+              <div class="mySlides fade">
+                <div class="numbertext"><%= index + 1 %>  / <%= hotPosts.length  %> </div>
+                <img src="<%= homePageImages[index].image %> " style="width:100%">
+                <div class="text"><%= homePageImages[index].name %> </div>
+              </div>
+            <% } %>
+          </div>
+        <% } %>
         <div class="slideshow-container">
 
           <!-- Full-width images with number and caption text -->
