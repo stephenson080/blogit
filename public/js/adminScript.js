@@ -64,7 +64,7 @@ if (deleteCatBtn){
             const categoryCon = deleteCatBtn[i].parentNode.parentNode.parentNode
             const categoryId = +deleteCatBtn[i].parentNode.querySelector('[name=categoryId]').value
             try {
-                const res = await fetch(`http://localhost:3000/admin/categories/delete-category/${categoryId}`, {
+                const res = await fetch(`${baseUrl}/admin/categories/delete-category/${categoryId}`, {
                     headers: headers,
                     method: 'DELETE'
                 })
@@ -88,7 +88,7 @@ if (approveBtn) {
     approveBtn.addEventListener('click', async function () {
         const postId = approveBtn.parentNode.querySelector('[name=postId]').value
         try {
-            const res = await fetch(`http://localhost:3000/admin/posts/approve-post/${postId}`, {
+            const res = await fetch(`${baseUrl}/admin/posts/approve-post/${postId}`, {
                 method: 'POST',
                 headers: headers
             })
@@ -162,7 +162,7 @@ if (deleteCommentbtns) {
                 return
             }
             try {
-                const res = await fetch(`http://localhost:3000/dashboard/posts/delete-comment/${commentId}`, {
+                const res = await fetch(`${baseUrl}/dashboard/posts/delete-comment/${commentId}`, {
                     headers: headers,
                     method: 'DELETE'
                 })
@@ -194,7 +194,7 @@ if (deleteReplybtns) {
                 return
             }
             try {
-                const res = await fetch(`http://localhost:3000/dashboard/posts/delete-reply/${commentId}`, {
+                const res = await fetch(`${baseUrl}/dashboard/posts/delete-reply/${commentId}`, {
                     headers: headers,
                     method: 'DELETE'
                 })
@@ -233,7 +233,7 @@ for (let i = 0; i < postbtns.length; i++) {
         const postId = postbtns[i].parentNode.querySelector('[name=postId]').value
         const postCon = postbtns[i].closest('article')
         const post = { postId: postId }
-        fetch(`${basicUrl}/dashboard/posts/delete-post`, {
+        fetch(`${baseUrl}/dashboard/posts/delete-post`, {
             method: "DELETE",
             headers: headers,
             body: JSON.stringify(post)
@@ -288,7 +288,7 @@ async function addOrReplyOrEditComment(...args) {
         let commentId = commentIdElem.value
         if (editMode) {
             try {
-                const res = await fetch(`${basicUrl}/dashboard/posts/edit-comment`, {
+                const res = await fetch(`${baseUrl}/dashboard/posts/edit-comment`, {
                     headers: headers,
                     method: 'POST',
                     body: JSON.stringify({
@@ -328,7 +328,7 @@ async function addOrReplyOrEditComment(...args) {
         }
         if (editReplyMode) {
             try {
-                const res = await fetch(`${basicUrl}/dashboard/posts/edit-reply`, {
+                const res = await fetch(`${baseUrl}/dashboard/posts/edit-reply`, {
                     headers: headers,
                     method: 'POST',
                     body: JSON.stringify({
