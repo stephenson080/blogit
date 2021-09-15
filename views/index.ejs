@@ -18,7 +18,7 @@
         <div class="container">
           <h5 style="padding: 10px;">Trending Posts</h5>
         </div>
-        <% if (hotPosts.length) { %>
+        <% if (hotPosts.length <= 0) { %>
           <div class="slideshow-container">
             <% for( let index = 0; index < homePageImages.length; index++ ) { %>
               <div class="mySlides fade">
