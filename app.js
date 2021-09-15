@@ -76,6 +76,7 @@ app.use(auth(auth0Config))
 
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'images')))
 app.use('/', express.static(path.join(__dirname, 'images')))
 app.use('/posts/', express.static(path.join(__dirname, 'public')))
 app.use('/posts/', express.static(path.join(__dirname, 'images')))
