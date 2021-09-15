@@ -5,22 +5,23 @@ const {getAddCategoryPage, getAllPostsPage, getDashboard, getallUsersPage, getRe
     addNewCategory, getAllCategoriesPage, getEditCategoryPage, editCategory, deleteCategory, approveUser,
     deleteUser
 } = require('../controllers/admin')
+const isAuth = require('../middlwares/is-Auth')
 
-router.get('/posts/review-post/:postId', getReviewPostPage)
-router.post('/posts/approve-post/:postId', approvePost)
-router.get('/categories/add-category', getAddCategoryPage)
+router.get('/posts/review-post/:postId', isAuth, getReviewPostPage)
+router.post('/posts/approve-post/:postId', isAuth, approvePost)
+router.get('/categories/add-category', isAuth, getAddCategoryPage)
 router.post('/categories/add-category', [
     body('name').isLength({ min: 1 }).withMessage('Please the Category name Field is needed')], addNewCategory)
-router.get('/categories/view-categories', getAllCategoriesPage)
-router.get('/categories/edit-category/:categoryId', getEditCategoryPage)
-router.post('/categories/edit-category', [
+router.get('/categories/view-categories', isAuth, getAllCategoriesPage)
+router.get('/categories/edit-category/:categoryId', isAuth, getEditCategoryPage)
+router.post('/categories/edit-category', isAuth, [
     body('name').isLength({ min: 1 }).withMessage('Please the Category name Field is needed')], editCategory )
-router.delete('/categories/delete-category/:categoryId', deleteCategory)
-router.get('/dashboard', getDashboard )
-router.get('/users/view-users', getallUsersPage)
-router.delete('/users/delete-user/:userId', deleteUser)
-router.post('/users/approve-user/:userId', approveUser)
-router.get('/posts/all-posts', getAllPostsPage)
+router.delete('/categories/delete-category/:categoryId', isAuth, deleteCategory)
+router.get('/dashboard', isAuth, getDashboard )
+router.get('/users/view-users', isAuth, getallUsersPage)
+router.delete('/users/delete-user/:userId', isAuth, deleteUser)
+router.post('/users/approve-user/:userId', isAuth, approveUser)
+router.get('/posts/all-posts', isAuth, getAllPostsPage)
 
 
 

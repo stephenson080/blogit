@@ -1,3 +1,7 @@
+const basicUrl = `https://blogit-web.herokuapp.com`
+const headers = {
+    'Content-Type': 'application/json'
+}
 let editMode = false
 let editReplyMode = false
 const clearBtn = document.getElementsByClassName('clear-btn')[0]
@@ -43,10 +47,8 @@ if (deleteCommentbtns) {
                 return
             }
             try {
-                const res = await fetch(`http://localhost:3000/dashboard/posts/delete-comment/${commentId}`, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                const res = await fetch(`${basicUrl}/dashboard/posts/delete-comment/${commentId}`, {
+                    headers: headers,
                     method: 'DELETE'
                 })
 
@@ -77,10 +79,8 @@ if (deleteReplybtns) {
                 return
             }
             try {
-                const res = await fetch(`http://localhost:3000/dashboard/posts/delete-reply/${commentId}`, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                const res = await fetch(`${basicUrl}/dashboard/posts/delete-reply/${commentId}`, {
+                    headers: headers,
                     method: 'DELETE'
                 })
 
@@ -120,24 +120,25 @@ for (let i = 0; i < postbtns.length; i++) {
         const postId = postbtns[i].parentNode.querySelector('[name=postId]').value
         const postCon = postbtns[i].closest('article')
         const post = { postId: postId }
-        fetch('http://localhost:3000/dashboard/posts/delete-post', {
+        fetch(`${basicUrl}/dashboard/posts/delete-post`, {
             method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             body: JSON.stringify(post)
         })
             .then(res => res.json())
             .then(resData => {
                 if (resData.message == 'Post Successfully Deleted') {
                     if (path[3] == 'view-post') {
-                        window.location.href = 'http://localhost:3000/dashboard/posts/all-posts'
+                        window.location.href = `${basicUrl}/dashboard/posts/all-posts`
                         return
                     }
                     postCon.parentNode.removeChild(postCon)
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                alert(`Something went wrong. ${err.message}`)
+                console.log(err)
+            })
     })
 }
 // const deleteBtnInPostDetailsPage = document.getElementsByClassName('delete-btn')[0]
@@ -182,10 +183,8 @@ async function addOrReplyOrEditComment(...args) {
         let commentId = commentIdElem.value
         if (editMode) {
             try {
-                const res = await fetch('http://localhost:3000/dashboard/posts/edit-comment', {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                const res = await fetch(`${basicUrl}/dashboard/posts/edit-comment`, {
+                    headers: headers,
                     method: 'POST',
                     body: JSON.stringify({
                         email,
@@ -223,12 +222,9 @@ async function addOrReplyOrEditComment(...args) {
             }
         }
         if (editReplyMode) {
-            console.log(editReplyMode, 'editing reply')
             try {
-                const res = await fetch('http://localhost:3000/dashboard/posts/edit-reply', {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                const res = await fetch(`${basicUrl}/dashboard/posts/edit-reply`, {
+                    headers: headers,
                     method: 'POST',
                     body: JSON.stringify({
                         email,
@@ -263,10 +259,8 @@ async function addOrReplyOrEditComment(...args) {
             }
         }
         try {
-            const res = await fetch('http://localhost:3000/view-post/reply', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+            const res = await fetch(`${basicUrl}/view-post/reply`, {
+                headers: headers,
                 method: 'POST',
                 body: JSON.stringify({
                     email,
@@ -302,10 +296,8 @@ async function addOrReplyOrEditComment(...args) {
         }
 
     }
-    return fetch('http://localhost:3000/view-post/add-comment', {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    return fetch(`${basicUrl}/view-post/add-comment`, {
+        headers: headers,
         method: 'POST',
         body: JSON.stringify({
             email,
@@ -336,7 +328,7 @@ async function addOrReplyOrEditComment(...args) {
             return 'Something went wrong'
         })
         .catch(err => {
-            alert(err)
+            alert(err.message)
             return err.message
         })
 }

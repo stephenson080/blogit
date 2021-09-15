@@ -1,4 +1,7 @@
-
+const basicUrl = 'https://blogit-web.herokuapp.com'
+const headers = {
+  'Content-Type': 'application/json'
+}
 const clearBtn = document.getElementsByClassName('clear-btn')[0]
 if (clearBtn) {
   clearBtn.addEventListener('click', function () {
@@ -66,10 +69,8 @@ async function addOrReplyComment(...args) {
   if (commentIdElem && commentIdElem != null) {
     let commentId = commentIdElem.value
     try {
-      const res = await fetch('http://localhost:3000/view-post/reply', {
-        headers: {
-          'Content-Type': 'application/json'
-        },
+      const res = await fetch(`${basicUrl}/view-post/reply`, {
+        headers: headers,
         method: 'POST',
         body: JSON.stringify({
           email,
@@ -103,10 +104,8 @@ async function addOrReplyComment(...args) {
     }
 
   }
-  return fetch('http://localhost:3000/view-post/add-comment', {
-    headers: {
-      'Content-Type': 'application/json'
-    },
+  return fetch(`${basicUrl}/view-post/add-comment`, {
+    headers: headers,
     method: 'POST',
     body: JSON.stringify({
       email,

@@ -1,27 +1,3 @@
-// let post = {}
-//     const fetchedPost = await Post.findByPk(postId)
-//     const authorname = await Author.findByPk(fetchedPost.dataValues.bloggerId)
-//     const category = await Category.findByPk(fetchedPost.dataValues.categoryId)
-//     const author = authorname.dataValues.username
-//     const commentsCount = await Comment.findAndCountAll({
-//         where: {
-//             postId: postId
-//         }
-//     })
-//     post = {
-//         id: fetchedPost.dataValues.id,
-//         title: fetchedPost.dataValues.head_line,
-//         likes: fetchedPost.dataValues.likes,
-//         category: category.dataValues.name,
-//         body: fetchedPost.dataValues.body,
-//         imageUrl: fetchedPost.dataValues.imageUrl,
-//         date: fetchedPost.dataValues.date_time,
-//         author,
-//         noOfComments: commentsCount.count,
-//         authorId: fetchedPost.dataValues.bloggerId
-//     }
-//     return post
-
 const PostModelDB = require('../models/post')
 const AuthorModelDB = require('../models/blogger')
 const CategoryModelDB = require('../models/category')

@@ -5,7 +5,7 @@ const Reply = require('../utils/reply')
 const Comment = require('../utils/comment')
 const { validationResult } = require('express-validator')
 const moment = require('moment')
-const { delefile, getPostById, getCommentsByPostId, getAllPosts, getCommentById, getReplyById } = require('../utils/helpers')
+const { delefile} = require('../utils/helpers')
 
 
 
@@ -342,7 +342,6 @@ exports.getMyPostPage = async (req, res, next) => {
 exports.getPostsByCategory = async (req, res, next) => {
     try {
         const posts = await Post.getPostsByCategory(req.params.categoryId)
-        console.log(posts, 'ekjdsdkjdl')
         const category = await Category.getCategoryById(req.params.categoryId)
         const cat = await Category.getAllCategories()
         res.render('allposts-by-cat', {

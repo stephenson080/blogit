@@ -1,4 +1,3 @@
-// const Category = require('../models/category')
 const {validationResult} = require('express-validator')
 const User = require('../utils/user')
 const Post = require('../utils/post')

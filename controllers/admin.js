@@ -7,7 +7,6 @@ const { validationResult } = require('express-validator')
 // const Reply = require('../utils/reply')
 
 exports.getDashboard = async (req, res, next) => {
-    let hotPostsNoOfComments = []
     let posts = []
     try {
         posts = await Post.getAllPosts()
@@ -28,7 +27,6 @@ exports.getDashboard = async (req, res, next) => {
 
 exports.getallUsersPage = async (req, res, next) => {
     try {
-        console.log(req.user)
         const users = await User.getUsers()
         res.render('admin/user/view-users', {
             title: 'All Users',
@@ -63,7 +61,6 @@ exports.approveUser = async (req, res, next) => {
 exports.getAllPostsPage = async (req, res, next) => {
     try {
         const posts = await Post.getAllPosts()
-        console.log(posts)
         res.render('admin/post/all-posts', {
             title: 'All Posts',
             posts,

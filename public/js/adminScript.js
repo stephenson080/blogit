@@ -1,7 +1,7 @@
 const headers = {
         'Content-Type': 'application/json'
 }
-const baseUrl = 'http://localhost:3000'
+const baseUrl = 'https://blogit-web.herokuapp.com'
 
 const deleteUserbtn = document.getElementsByClassName('delete-user')
 if (deleteUserbtn) {
@@ -45,7 +45,6 @@ if (approveUserbtn) {
                 }
 
                 const resData = await res.json()
-                console.log(resData.message)
                 if (resData.message == 'Operation Successful') {
                     alert('You have successfully approve a user')
                     return
@@ -64,7 +63,6 @@ if (deleteCatBtn){
         deleteCatBtn[i].addEventListener('click', async function() {
             const categoryCon = deleteCatBtn[i].parentNode.parentNode.parentNode
             const categoryId = +deleteCatBtn[i].parentNode.querySelector('[name=categoryId]').value
-            console.log(categoryCon, categoryId)
             try {
                 const res = await fetch(`http://localhost:3000/admin/categories/delete-category/${categoryId}`, {
                     headers: headers,
@@ -89,7 +87,6 @@ const approveBtn = document.getElementsByClassName('approve')[0]
 if (approveBtn) {
     approveBtn.addEventListener('click', async function () {
         const postId = approveBtn.parentNode.querySelector('[name=postId]').value
-        console.log(postId)
         try {
             const res = await fetch(`http://localhost:3000/admin/posts/approve-post/${postId}`, {
                 method: 'POST',
@@ -236,7 +233,7 @@ for (let i = 0; i < postbtns.length; i++) {
         const postId = postbtns[i].parentNode.querySelector('[name=postId]').value
         const postCon = postbtns[i].closest('article')
         const post = { postId: postId }
-        fetch('http://localhost:3000/dashboard/posts/delete-post', {
+        fetch(`${basicUrl}/dashboard/posts/delete-post`, {
             method: "DELETE",
             headers: headers,
             body: JSON.stringify(post)
@@ -245,13 +242,15 @@ for (let i = 0; i < postbtns.length; i++) {
             .then(resData => {
                 if (resData.message == 'Post Successfully Deleted') {
                     if (path[3] == 'view-post') {
-                        window.location.href = 'http://localhost:3000/dashboard/posts/all-posts'
+                        window.location.href = `${basicUrl}/dashboard/posts/all-posts`
                         return
                     }
                     postCon.parentNode.removeChild(postCon)
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                alert(err.message)
+            })
     })
 }
 
@@ -268,7 +267,6 @@ if (commentBtn) {
         let commentIdElem = commentBox.querySelector('[name=commentId]')
         addOrReplyOrEditComment(name, email, body, postId, commentIdElem)
             .then(res => {
-                console.log(res)
                 if (res == 'Operation Successful') {
                     document.getElementById('add-comment-btn').innerHTML = 'Comment'
                     document.getElementById('comment-header').innerHTML = 'Add Comment'
@@ -290,7 +288,7 @@ async function addOrReplyOrEditComment(...args) {
         let commentId = commentIdElem.value
         if (editMode) {
             try {
-                const res = await fetch('http://localhost:3000/dashboard/posts/edit-comment', {
+                const res = await fetch(`${basicUrl}/dashboard/posts/edit-comment`, {
                     headers: headers,
                     method: 'POST',
                     body: JSON.stringify({
@@ -329,9 +327,8 @@ async function addOrReplyOrEditComment(...args) {
             }
         }
         if (editReplyMode) {
-            console.log(editReplyMode, 'editing reply')
             try {
-                const res = await fetch('http://localhost:3000/dashboard/posts/edit-reply', {
+                const res = await fetch(`${basicUrl}/dashboard/posts/edit-reply`, {
                     headers: headers,
                     method: 'POST',
                     body: JSON.stringify({
@@ -367,7 +364,7 @@ async function addOrReplyOrEditComment(...args) {
             }
         }
         try {
-            const res = await fetch('http://localhost:3000/view-post/reply', {
+            const res = await fetch(`${baseUrl}view-post/reply`, {
                 headers: headers,
                 method: 'POST',
                 body: JSON.stringify({
@@ -404,8 +401,7 @@ async function addOrReplyOrEditComment(...args) {
         }
 
     }
-    console.log(email, body, postId, name)
-    return fetch('http://localhost:3000/view-post/add-comment', {
+    return fetch(`${baseUrl}/view-post/add-comment`, {
         headers: headers,
         method: 'POST',
         body: JSON.stringify({

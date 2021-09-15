@@ -155,7 +155,6 @@ app.use(async (error, req, res, next) => {
 })
 app.use(get404Page)
 
-console.log(process.env)
 // apps entry point
 dbConnnection
     // .sync({force: true})

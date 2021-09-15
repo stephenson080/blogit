@@ -6,11 +6,11 @@
     <%- include("./include/main-nav.ejs")  %>
     <div class="container">
         <div class="container">
-            <h4 class="blue-text text-darken-3"><%= title %></h4> 
+            <h5 class="blue-text text-darken-3"><%= title %></h5> 
             <% if (posts.length == 0) { %>
                 <div class="container white">
                     <div class="row">
-                        <h4 class="col s12">Oohs no Post for this Category Found!!! 000 </h4>
+                        <h6 class="col s12">Oohs no Post for this Category Found!!! 000 </h6>
                     </div>
                 </div>
             <% } %>
@@ -32,11 +32,11 @@
                             <div class="content">
                                 <p class="truncate"><%= posts[index].body %> 
                                 <input type= "hidden" name="postId" value="<%= posts[index].id %>">
-                                </p> <a href="/view-post/<%= posts[index].id %> " class="btn-small white-text btn-flat blue">Read more</a>
+                                </p> <a href="/view-post/<%= posts[index].id %> " class="btn-small white-text btn-flat #0277bd light-blue darken-3">Read more</a>
                                 <div class="row">
                                     <p class="col s6"><%= posts[index].category %> </p>
                                     <p class="col s3 black-text"><%= posts[index].likes %><i class="material-icons left red-text">favorite</i></p>
-                                    <P class="col s3 blact-text"><%= posts[index].noOfComments %>  <i class="material-icons left blue-text">comment</i></P>
+                                    <P class="col s3 black-text"><%= posts[index].noOfComments %>  <i class="material-icons left blue-text text-darken-3">comment</i></P>
                                 </div>
                             </div>
                         </div>

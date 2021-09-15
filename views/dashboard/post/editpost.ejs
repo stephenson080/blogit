@@ -35,7 +35,7 @@
                                 <select  name="posttype">
                                   <option  class="blue-text text-darken-4" value="" disabled selected>Choose your option</option>
                                   <% for( let index = 0; index < cat.length; index++ ) { %>
-                                    <option selected= <%= post.categoryId == cat[index].id ? true : false%>  class="blue-text text-darken-4" value="<%= cat[index].id %>"><%= cat[index].category %> </option>
+                                    <option selected= <%= post.categoryId == cat[index].id ? true : false%>  class="blue-text text-darken-3" value="<%= cat[index].id %>"><%= cat[index].category %> </option>
                                   <% } %>
                                 </select>
                             </div>
@@ -55,10 +55,10 @@
                         <div class="row">
                             <input type="hidden" value="<%= post.id %>" name="postId">
                             <div class="col s3">
-                                <a href="#" class="btn-flat transparent blue-text text-darken-4">Cancel</a>
+                                <a href="#" class="btn-flat transparent red-text text-darken-4">Cancel</a>
                             </div>
-                            <div class="col offset-s1 s3">
-                                <input type="submit" class="btn red">
+                            <div class="col offset-s2 s3">
+                                <input type="submit" class="btn #0277bd light-blue darken-3 white-text">
                             </div>
                         </div>
                     </form>

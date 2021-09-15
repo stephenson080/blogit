@@ -1,21 +1,6 @@
 const ReplyModelDB = require('../models/replyToComment')
 const {delefile} = require('./helpers')
 
-//         if (fetchedReplies.length >= 1) {
-//             for (let reply of fetchedReplies) {
-//                 replies.push({
-//                     name: reply.dataValues.name,
-//                     id: reply.dataValues.id,
-//                     body: reply.dataValues.body,
-//                     imageUrl: reply.dataValues.imageUrl,
-//                     date: reply.dataValues.date_time,
-//                     email: reply.dataValues.email
-//                 })
-
-//             }
-
-//         }
-
 class Reply {
     constructor(id, name, email, body, date, imageUrl) {
         this.id = id

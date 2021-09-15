@@ -1,12 +1,10 @@
-// const Category = require('../models/category')
-const Author = require('../models/blogger')
 const Comment = require('../utils/comment')
 const Reply = require('../utils/reply')
 const moment = require('moment')
 const Post = require('../utils/post')
 const User = require('../utils/user')
 const Category = require('../utils/category')
-const { getHotPosts, getPostById, getCommentsByPostId, getCommentById } = require('../utils/helpers')
+const { getHotPosts} = require('../utils/helpers')
 const { validationResult } = require('express-validator')
 
 const homePageImages = [{
@@ -21,18 +19,6 @@ const homePageImages = [{
     name: 'Music',
     image: 'music.jpg'
 },
-{
-    name: 'Technology',
-    image: 'tech.jpg'
-},
-{
-    name: 'Travel',
-    image: 'travel.jpg'
-},
-{
-    name: 'Sport',
-    image: 'sport.jpg'
-}
 ]
 exports.getIndexOrDashBoardPage = async (req, res, next, isAuthenticated, user) => {
     const posts = await Post.getAllPosts()
@@ -77,7 +63,6 @@ exports.getIndexOrDashBoardPage = async (req, res, next, isAuthenticated, user) 
             next(error)
         }
     }
-    console.log(hotPosts, 'fkfklfk')
     return res.render('index', {
         title: "BLOGit Home",
         cat : cat,
