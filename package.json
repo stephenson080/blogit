@@ -1,6 +1,6 @@
 {
   "name": "blogit",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "a blog app for all content",
   "main": "app.js",
   "scripts": {

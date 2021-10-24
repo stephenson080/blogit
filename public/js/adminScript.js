@@ -245,7 +245,6 @@ for (let i = 0; i < postbtns.length; i++) {
                         window.location.href = `${basicUrl}/dashboard/posts/all-posts`
                         return
                     }
-                    postCon.parentNode.removeChild(postCon)
                 }
             })
             .catch(err => {

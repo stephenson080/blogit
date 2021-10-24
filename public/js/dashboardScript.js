@@ -2,6 +2,10 @@ const basicUrl = `https://blogit-web.herokuapp.com`
 const headers = {
     'Content-Type': 'application/json'
 }
+const messages = {
+    SUCCESS: 'Operation Successful',
+    ERROR: 'Something went wrong'
+}
 let editMode = false
 let editReplyMode = false
 const clearBtn = document.getElementsByClassName('clear-btn')[0]
@@ -53,17 +57,17 @@ if (deleteCommentbtns) {
                 })
 
                 if (!res.ok) {
-                    alert('Something went wrong')
-                    return 'Something went wrong'
+                    alert(messages.ERROR)
+                    return messages.ERROR
                 }
                 const resData = await res.json()
-                if (resData.message == 'Operation Successful') {
+                if (resData.message == messages.SUCCESS) {
                     alert('Operation Successful. You have deleted Your Comment')
                     location.reload()
                 }
 
             } catch (error) {
-                alert('Something went wrong.' + error.message)
+                alert(`${messages.ERROR}. ${error.message}`)
             }
         })
     }
@@ -85,18 +89,18 @@ if (deleteReplybtns) {
                 })
 
                 if (!res.ok) {
-                    alert('Something went wrong')
-                    return 'Something went wrong'
+                    alert(messages.ERROR)
+                    return messages.ERROR
                 }
                 const resData = await res.json()
-                if (resData.message == 'Operation Successful') {
-                    alert('Operation Successful. You have deleted Your Comment')
+                if (resData.message == messages.ERROR) {
+                    alert(`${messages.SUCCESS}. You have deleted Your Comment`)
                     location.reload()
                     return
                 }
 
             } catch (error) {
-                alert('Something went wrong.' + error.message)
+                alert(`${messages.ERROR}.${error.message}`)
             }
         })
     }
@@ -161,7 +165,6 @@ if (commentBtn) {
         let commentIdElem = commentBox.querySelector('[name=commentId]')
         addOrReplyOrEditComment(name, email, body, postId, commentIdElem)
             .then(res => {
-                console.log(res)
                 if (res == 'Operation Successful') {
                     document.getElementById('add-comment-btn').innerHTML = 'Comment'
                     document.getElementById('comment-header').innerHTML = 'Add Comment'
